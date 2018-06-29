@@ -44,13 +44,14 @@ ROOT_GENERATE_DICTIONARY(haDecodeDict ${headers}
   OPTIONS -p)
 set(PCM_FILE  ${CMAKE_CURRENT_BINARY_DIR}/haDecodeDict_rdict.pcm)
 
-ADD_CUSTOM_TARGET(haDecode_ROOTDICTS DEPENDS ${haDecode_src} ${headers} haDecode_LinkDef.h haDecodeDict.cxx)
+add_custom_target(haDecode_ROOTDICTS DEPENDS ${haDecode_src} ${headers} haDecode_LinkDef.h haDecodeDict.cxx)
+
 
 add_library(dc 
   ${haDecode_src}
   haDecodeDict.cxx
   )
-add_library(PODD::Decode ALIAS dc)
+#add_library(PODD::Decode ALIAS dc)
 
 #Set target properties
 target_include_directories(dc
@@ -78,7 +79,7 @@ install(TARGETS dc
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
   )
-set_target_properties(dc PROPERTIES EXPORT_NAME Decode)
+#set_target_properties(dc PROPERTIES EXPORT_NAME Decode)
 
 #This is required so that the exported target has the name JSONUtils and not jsonutils
 #set_target_properties(HallA PROPERTIES EXPORT_NAME halla)

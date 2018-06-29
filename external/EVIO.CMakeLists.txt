@@ -14,6 +14,7 @@ ExternalProject_Add(evio_project
       SOURCE_DIR "${CMAKE_BINARY_DIR}/hallac_evio-src"
       BINARY_DIR "${CMAKE_BINARY_DIR}/hallac_evio-build"
       CMAKE_ARGS "-DCMAKE_INSTALL_PREFIX=@CMAKE_INSTALL_PREFIX@" "-DCMAKE_PREFIX_PATH=@CMAKE_INSTALL_PREFIX@"
+      BUILD_COMMAND ${CMAKE_COMMAND} --build .  -- -j4
       TEST_COMMAND ""
       LOG_DOWNLOAD ON
       )

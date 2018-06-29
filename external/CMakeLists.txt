@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.1)
 
 #include(ExternalProject)
-
+set(CMAKE_BUILD_PARALLEL_LEVEL 4)
 ##############
 ##  GFLAGS  ##
 ##############
