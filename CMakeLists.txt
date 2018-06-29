@@ -12,6 +12,7 @@ set(CMAKE_MODULE_PATH
 
 ## OS Specific settings
 include(cmake/os.cmake)
+
 # provides variables for header ha_compiledata.h
 include(cmake/modules/CompileTimeInfo.cmake)
 
@@ -19,10 +20,6 @@ include(GNUInstallDirs)
 set(INSTALL_CONFIGDIR lib/podd)
 
 list(APPEND CMAKE_PREFIX_PATH ${CMAKE_INSTALL_PREFIX})
-
-find_package(EXPAT REQUIRED COMPONENTS EXPAT )
-find_package(Threads REQUIRED)
-find_package(ZLIB REQUIRED)
 
 include(ExternalProject)
 
