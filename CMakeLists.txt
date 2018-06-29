@@ -7,8 +7,8 @@ set(CMAKE_MODULE_PATH
    ${PROJECT_SOURCE_DIR}/cmake/modules)
 
 ## Use C++17 features 
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+#set(CMAKE_CXX_STANDARD 17)
+#set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 ## OS Specific settings
 include(cmake/os.cmake)
@@ -18,10 +18,15 @@ include(cmake/modules/CompileTimeInfo.cmake)
 include(GNUInstallDirs)
 set(INSTALL_CONFIGDIR lib/podd)
 
+list(APPEND CMAKE_PREFIX_PATH ${CMAKE_INSTALL_PREFIX})
+
 find_package(EXPAT REQUIRED COMPONENTS EXPAT )
 find_package(Threads REQUIRED)
 find_package(ZLIB REQUIRED)
-find_package(EVIO REQUIRED)
+
+include(ExternalProject)
+add_subdirectory(external)
+find_package(EVIO)
 
 
 list(APPEND CMAKE_PREFIX_PATH $ENV{ROOTSYS})
@@ -39,6 +44,7 @@ include_directories(src)
 
 configure_file(ha_compiledata.h.in 
   src/ha_compiledata.h)
+
 
 add_subdirectory(hana_decode)
 add_subdirectory(src)
