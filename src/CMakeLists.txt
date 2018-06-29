@@ -84,7 +84,7 @@ include_directories(${PROJECT_SOURCE_DIR}/hana_decode)
 
 ADD_CUSTOM_TARGET(HallA_ROOTDICTS DEPENDS ${podd_src} ${headers} HallA_LinkDef.h HallADict.cxx)
 
-add_library(HallA STATIC
+add_library(HallA
   ${podd_src} HallADict.cxx
   )
 
@@ -104,8 +104,6 @@ target_include_directories(HallA
 #target_compile_features(HallA PRIVATE cxx_auto_type)
 
 target_link_libraries(HallA
-  #PUBLIC ${EXPAT_LIBRARIES}
-  #PUBLIC ${CMAKE_THREAD_LIBS_INIT}
   PUBLIC ${ROOT_LIBRARIES} 
   PRIVATE PODD::Decode 
 )
