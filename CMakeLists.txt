@@ -25,12 +25,12 @@ include(ExternalProject)
 
 # ---------------
 # EVIO 
-find_package(EVIO)
-if(NOT ${EVIO_FOUND})
-  message(STATUS "EVIO not found. Will download and build EVIO")
-  add_subdirectory(external)
-  find_package(EVIO REQUIRED)
-endif()
+find_package(EVIO REQUIRED)
+#if(NOT ${EVIO_FOUND})
+#  message(STATUS "EVIO not found. Will download and build EVIO")
+#  add_subdirectory(external)
+#  find_package(EVIO REQUIRED)
+#endif()
 
 list(APPEND CMAKE_PREFIX_PATH $ENV{ROOTSYS})
 list(APPEND CMAKE_PREFIX_PATH $ENV{ROOTSYS}/etc/cmake)
