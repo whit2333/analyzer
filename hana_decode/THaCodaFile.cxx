@@ -12,6 +12,7 @@
 //
 /////////////////////////////////////////////////////////////////////
 
+#include <iostream>
 #include "THaCodaFile.h"
 #include <iostream>
 #include <cstdlib>

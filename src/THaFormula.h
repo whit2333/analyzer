@@ -19,9 +19,10 @@
 #include <vector>
 #include <iostream>
 
-class THaVarList;
 class THaCutList;
+class THaVarList;
 class THaVar;
+//#include "THaCutList.h"
 
 
 #if ROOT_VERSION_CODE < 394240
@@ -35,8 +36,11 @@ public:
   static const Option_t* const kPRINTBRIEF;
 
   THaFormula();
-  THaFormula( const char* name, const char* formula, Bool_t do_register=kTRUE,
-	      const THaVarList* vlst=gHaVars, const THaCutList* clst=gHaCuts );
+  THaFormula( const char* name, const char* formula, Bool_t do_register,
+	      const THaVarList* vlst, const THaCutList* clst );
+
+  THaFormula( const char* name, const char* formula, Bool_t do_register=kTRUE);
+
   THaFormula( const THaFormula& rhs );
   THaFormula& operator=( const THaFormula& rhs );
   virtual ~THaFormula();

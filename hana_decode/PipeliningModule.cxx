@@ -6,6 +6,7 @@
 //
 /////////////////////////////////////////////////////////////////////
 
+#include <iostream>
 #include "PipeliningModule.h"
 #include "THaSlotData.h"
 #include <iostream>

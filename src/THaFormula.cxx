@@ -13,6 +13,7 @@
 //
 //////////////////////////////////////////////////////////////////////////
 
+#include "THaGlobals.h"
 #include "THaFormula.h"
 #include "THaArrayString.h"
 #include "THaVarList.h"
@@ -71,6 +72,32 @@ THaFormula::THaFormula() : TFormula(), fVarList(0), fCutList(0), fInstance(0)
 }
 
 //_____________________________________________________________________________
+
+THaFormula::THaFormula( const char* name, const char* expression,
+			Bool_t do_register)
+  : TFormula(), fVarList(gHaVars), fCutList(gHaCuts), fInstance(0)
+{
+  // Create a formula 'expression' with name 'name' and symbolic variables
+  // from the list 'lst'.
+
+  // We have to duplicate the TFormula constructor code here because of
+  // the call to Compile(). Not only do we have our own Compile(), but
+  // also out own DefinedVariable() etc. virtual functions. A disturbing
+  // design error of the ROOT base class indeed.
+
+  if( Init( name, expression ) != 0 ) {
+    RegisterFormula(false);
+    return;
+  }
+
+  SetBit(kNotGlobal,!do_register);
+
+  Compile();   // This calls our own Compile()
+
+  if( do_register )
+    RegisterFormula();
+}
+
 THaFormula::THaFormula( const char* name, const char* expression,
 			Bool_t do_register,
 			const THaVarList* vlst, const THaCutList* clst )

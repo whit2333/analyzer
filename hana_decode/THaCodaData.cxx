@@ -12,6 +12,7 @@
 //
 /////////////////////////////////////////////////////////////////////
 
+#include <iostream>
 #include "THaCodaData.h"
 #include "evio.h"
 #include <cassert>

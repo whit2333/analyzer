@@ -13,6 +13,7 @@
 //
 /////////////////////////////////////////////////////////////////////
 
+#include <iostream>
 #include "THaEtClient.h"
 #include <iostream>
 #include <cstdlib>

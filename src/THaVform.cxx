@@ -12,10 +12,11 @@
 // about THaOutput.
 
 
+#include "THaCut.h"
 #include "THaVform.h"
+#include "THaFormula.h"
 #include "THaString.h"
 #include "THaVarList.h"
-#include "THaCut.h"
 #include "TTree.h"
 #include "TROOT.h"
 

@@ -28,6 +28,35 @@ THaCut::THaCut()
 }
 
 //_____________________________________________________________________________
+THaCut::THaCut( const char* name, const char* expression, const char* block): 
+   THaFormula(), fLastResult(kFALSE), fBlockname(block), fNCalled(0),
+    fNPassed(0), fMode(kAND)
+{
+  // Create a cut 'name' according to 'expression'.
+  // The cut may use global variables from the list 'vlst' and other,
+  // previously defined cuts from 'clst'.
+  //
+  // Unlike the behavior of THaFormula, THaCuts do NOT store themselves in
+  // ROOT's list of functions. Otherwise existing cuts used in new cut
+  // expressions would get reparsed instead of queried. This wouldn't
+  // work properly with a non-default array evaluation mode (OR/XOR).
+
+  SetList(gHaVars);
+  SetCutList(gHaCuts);
+
+  // Call common THaFormula::Init
+  if( Init(name, expression) != 0 ||
+      (fMode = ParsePrefix(fTitle)) == kModeErr ) {
+    return;
+  }
+
+  // Do not register cuts in ROOT's list of functions
+  SetBit(kNotGlobal);
+
+  // This calls THaFormula::Compile(), which calls TFormula::Analyze(),
+  // which then calls our own DefinedVariable()
+  Compile();
+}
 THaCut::THaCut( const char* name, const char* expression, const char* block,
 		const THaVarList* vlst, const THaCutList* clst )
   : THaFormula(), fLastResult(kFALSE), fBlockname(block), fNCalled(0),

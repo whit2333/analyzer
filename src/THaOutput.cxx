@@ -14,6 +14,7 @@
 //
 //////////////////////////////////////////////////////////////////////////
 
+#include "THaGlobals.h"
 #include "THaOutput.h"
 #include "TROOT.h"
 #include "THaVform.h"
@@ -21,7 +22,6 @@
 #include "THaVarList.h"
 #include "THaVar.h"
 #include "THaTextvars.h"
-#include "THaGlobals.h"
 #include "TH1.h"
 #include "TH2.h"
 #include "TTree.h"

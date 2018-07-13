@@ -8,9 +8,9 @@
     THaCodaDecoder.C in podd 1.5.   (Written by S. Malace, modified by B. Sawatzky)
 */
 
+#include <iostream>
 #include "Caen1190Module.h"
 #include "THaSlotData.h"
-#include <iostream>
 
 using namespace std;
 

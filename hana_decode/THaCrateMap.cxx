@@ -15,6 +15,7 @@
 /////////////////////////////////////////////////////////////////////
 
 
+#include <iostream>
 #include "Decoder.h"
 #include "THaCrateMap.h"
 #include <iostream>

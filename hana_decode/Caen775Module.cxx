@@ -10,6 +10,7 @@
 /////////////////////////////////////////////////////////////////////
 
 
+#include <iostream>
 #include "Caen775Module.h"
 #include "THaSlotData.h"
 #include "TString.h"

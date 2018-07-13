@@ -6,8 +6,8 @@
 //
 /////////////////////////////////////////////////////////////////////
 
-#include "SimDecoder.h"
 #include <iostream>
+#include "SimDecoder.h"
 
 using namespace std;
 

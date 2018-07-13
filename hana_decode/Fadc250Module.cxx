@@ -49,6 +49,7 @@
 //
 /////////////////////////////////////////////////////////////////////
 
+#include <iostream>
 #include "Fadc250Module.h"
 #include "PipeliningModule.h"
 #include "THaEvData.h"

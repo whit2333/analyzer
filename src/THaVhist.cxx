@@ -18,14 +18,14 @@
 //
 //////////////////////////////////////////////////////////////////////////
 
+#include "THaGlobals.h"
+#include "THaCutList.h"
 #include "THaVhist.h"
 #include "THaVform.h"
 #include "THaString.h"
 #include "TObject.h"
 #include "THaFormula.h"
-#include "THaVarList.h"
 #include "THaVar.h"
-#include "THaGlobals.h"
 #include "THaCut.h"
 #include "TH1.h"
 #include "TH2.h"

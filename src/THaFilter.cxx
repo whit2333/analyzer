@@ -4,13 +4,15 @@
 
 #include <iostream>
 
-#include "THaFilter.h"
-#include "THaCodaFile.h"
 #include "TError.h"
 #include "TString.h"
+
+#include "THaGlobals.h"
+#include "THaCodaFile.h"
+#include "THaRunBase.h"
 #include "THaCutList.h"
 #include "THaCut.h"
-#include "THaRunBase.h"
+#include "THaFilter.h"
 
 using namespace std;
 using namespace Decoder;

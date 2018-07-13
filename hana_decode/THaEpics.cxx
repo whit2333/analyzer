@@ -21,6 +21,7 @@
 //
 /////////////////////////////////////////////////////////////////////
 
+#include <iostream>
 #include "THaEpics.h"
 #include "TMath.h"
 #include <iostream>

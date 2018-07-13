@@ -189,8 +189,8 @@ void THaAnalyzer::Close()
     (static_cast<THaPostProcess*>(obj))->Close();
   }
 
-  if( gHaRun && *gHaRun == *fRun )
-    gHaRun = NULL;
+  //if( gHaRun && *gHaRun == *fRun )
+  //  gHaRun = NULL;
 
   delete fEvData; fEvData = NULL;
   delete fOutput; fOutput = NULL;
@@ -663,7 +663,8 @@ Int_t THaAnalyzer::DoInit( THaRunBase* run )
 
   // Make the current run available globally - the run parameters are
   // needed by some modules
-  gHaRun = fRun;
+  (gHaRun) = fRun;
+  //podd::Globals::Instance().SetRun(fRun);
 
   // Print run info
   if( fVerbose>0 ) {

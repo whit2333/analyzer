@@ -8,6 +8,7 @@
 //
 /////////////////////////////////////////////////////////////////////
 
+#include <iostream>
 #include "Module.h"
 #include "THaSlotData.h"
 #include "TError.h"

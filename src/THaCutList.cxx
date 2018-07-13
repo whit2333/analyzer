@@ -20,6 +20,7 @@
 #include "TList.h"
 #include "TString.h"
 #include "TClass.h"
+#include "THaVarList.h"
 
 #include <iostream>
 #include <fstream>
@@ -285,6 +286,13 @@ Int_t THaCutList::EvalBlock( const char* block )
 }
 
 //______________________________________________________________________________
+THaCut*           THaCutList::FindCut( const char* name ) const
+{ 
+  return static_cast<THaCut*>(fCuts->FindObject( name )); 
+}
+THaNamedList*     THaCutList::FindBlock( const char* block ) const
+{ return static_cast<THaNamedList*>(fBlocks->FindObject( block )); }
+
 inline static bool IsComment( const string& s, string::size_type pos )
 {
   return ( pos != string::npos && pos < s.length() &&

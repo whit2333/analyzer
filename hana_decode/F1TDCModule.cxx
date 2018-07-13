@@ -5,6 +5,7 @@
 //
 /////////////////////////////////////////////////////////////////////
 
+#include <iostream>
 #include "F1TDCModule.h"
 #include "VmeModule.h"
 #include "THaEvData.h"

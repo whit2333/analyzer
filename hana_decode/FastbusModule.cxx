@@ -4,6 +4,7 @@
 //
 /////////////////////////////////////////////////////////////////////
 
+#include <iostream>
 #include "FastbusModule.h"
 #include "THaSlotData.h"
 #include <iostream>

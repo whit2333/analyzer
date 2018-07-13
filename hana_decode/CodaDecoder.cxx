@@ -7,12 +7,12 @@
 //
 /////////////////////////////////////////////////////////////////////
 
+#include <iostream>
 #include "CodaDecoder.h"
 #include "THaCrateMap.h"
 #include "THaBenchmark.h"
 #include "THaUsrstrutils.h"
 #include "TError.h"
-#include <iostream>
 
 using namespace std;
 
