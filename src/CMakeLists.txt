@@ -45,23 +45,43 @@ set(podd_src
 
 # This would be alot easier if there was an "include" directory
 set(headers
-BankData.h BdataLoc.h FileInclude.h FixedArrayVar.h Helper.h MethodVar.h
-SeqCollectionMethodVar.h SeqCollectionVar.h THaADCHelicity.h THaAnalysisObject.h THaAnalyzer.h
-THaApparatus.h THaArrayString.h THaAvgVertex.h THaBeamDet.h THaBeamEloss.h THaBeam.h THaBeamInfo.h THaBeamModule.h
-THaBPM.h THaCherenkov.h THaCluster.h THaCodaRun.h THaCoincTime.h THaCut.h THaCutList.h THaDebugModule.h THaDecData.h
-THaDetectorBase.h THaDetector.h THaDetMap.h THaElectronKine.h THaElossCorrection.h THaEpicsEbeam.h THaEpicsEvtHandler.h
-THaEvent.h THaEvt125Handler.h THaEvtTypeHandler.h THaExtTarCor.h THaFilter.h THaFormula.h THaG0Helicity.h
-THaG0HelicityReader.h THaGlobals.h THaGoldenTrack.h THaHelicityDet.h THaHelicity.h THaHRS.h THaIdealBeam.h
-THaInterface.h THaNamedList.h THaNonTrackingDetector.h THaOnlRun.h THaOutput.h THaParticleInfo.h
-THaPhotoReaction.h THaPhysicsModule.h THaPidDetector.h THaPIDinfo.h THaPostProcess.h THaPrimaryKine.h THaPrintOption.h
-THaQWEAKHelicity.h THaQWEAKHelicityReader.h THaRasteredBeam.h THaRaster.h THaReacPointFoil.h THaReactionPoint.h
-THaRTTI.h THaRunBase.h THaRun.h THaRunParameters.h THaS2CoincTime.h THaSAProtonEP.h
-THaScalerEvtHandler.h THaScintillator.h THaSecondaryKine.h THaShower.h THaSpectrometerDetector.h THaSpectrometer.h THaString.h THaSubDetector.h
-THaTextvars.h THaTotalShower.h THaTrackEloss.h THaTrack.h THaTrackID.h THaTrackInfo.h THaTrackingDetector.h THaTrackingModule.h THaTrackOut.h
-THaTrackProj.h THaTriggerTime.h THaTwoarmVertex.h THaUnRasteredBeam.h THaVar.h THaVarList.h THaVDCAnalyticTTDConv.h THaVDCChamber.h
-THaVDCCluster.h THaVDC.h THaVDCHit.h THaVDCPlane.h THaVDCPoint.h THaVDCPointPair.h THaVDCTimeToDistConv.h THaVDCTrackID.h
-THaVDCWire.h THaVertexModule.h THaVform.h THaVhist.h VarDef.h VariableArrayVar.h Variable.h
-VarType.h VDCeff.h VectorObjMethodVar.h VectorObjVar.h VectorVar.h
+THaFormula.h THaVform.h THaVhist.h THaVar.h
+THaVarList.h THaCut.h THaNamedList.h THaCutList.h
+THaInterface.h THaRunBase.h THaCodaRun.h THaRun.h
+THaRunParameters.h THaDetMap.h THaApparatus.h
+THaDetector.h THaSpectrometer.h THaSpectrometerDetector.h
+THaHRS.h THaDecData.h BdataLoc.h THaOutput.h BankData.h
+THaString.h THaTrackingDetector.h THaNonTrackingDetector.h
+THaPidDetector.h THaSubDetector.h THaAnalysisObject.h
+THaDetectorBase.h THaRTTI.h THaPhysicsModule.h
+THaVertexModule.h THaTrackingModule.h THaAnalyzer.h
+THaPrintOption.h THaBeam.h THaIdealBeam.h
+THaRasteredBeam.h THaRaster.h THaBeamDet.h THaBPM.h
+THaUnRasteredBeam.h THaTrack.h THaPIDinfo.h
+THaParticleInfo.h THaCluster.h THaArrayString.h
+THaScintillator.h THaShower.h THaTotalShower.h
+THaCherenkov.h THaEvent.h THaTrackID.h THaVDC.h
+THaVDCPlane.h THaVDCWire.h THaVDCHit.h THaVDCCluster.h
+THaVDCTimeToDistConv.h THaVDCTrackID.h
+THaVDCAnalyticTTDConv.h VDCeff.h THaElectronKine.h
+THaReactionPoint.h THaReacPointFoil.h THaTwoarmVertex.h
+THaAvgVertex.h THaExtTarCor.h THaDebugModule.h
+THaTrackInfo.h THaGoldenTrack.h THaPrimaryKine.h
+THaSecondaryKine.h THaCoincTime.h THaS2CoincTime.h
+THaTrackProj.h THaPostProcess.h THaFilter.h
+THaElossCorrection.h THaTrackEloss.h THaBeamModule.h
+THaBeamInfo.h THaEpicsEbeam.h THaBeamEloss.h
+THaTrackOut.h THaTriggerTime.h THaHelicityDet.h
+THaG0HelicityReader.h THaG0Helicity.h THaADCHelicity.h
+THaHelicity.h THaPhotoReaction.h THaSAProtonEP.h
+THaTextvars.h THaQWEAKHelicity.h THaQWEAKHelicityReader.h
+THaEvtTypeHandler.h THaScalerEvtHandler.h
+THaEpicsEvtHandler.h THaEvt125Handler.h Variable.h
+VariableArrayVar.h FixedArrayVar.h VectorVar.h
+MethodVar.h SeqCollectionVar.h SeqCollectionMethodVar.h
+VectorObjVar.h VectorObjMethodVar.h THaVDCChamber.h
+THaVDCPoint.h THaVDCPointPair.h THaGlobals.h
+FileInclude.h
 )
 
 

@@ -30,21 +30,28 @@ VmeModule.cxx
   )
 
 set(headers
-  Caen1190Module.h Caen775Module.h Caen792Module.h CodaDecoder.h Decoder.h
-  et.h F1TDCModule.h Fadc250Module.h FastbusModule.h GenScaler.h Lecroy1875Module.h
-  Lecroy1877Module.h Lecroy1881Module.h Module.h PipeliningModule.h Scaler1151.h Scaler3800.h
-  Scaler3801.h Scaler560.h SimDecoder.h THaBenchmark.h THaCodaData.h THaCodaFile.h
-  THaCrateMap.h THaEpics.h THaEtClient.h THaEvData.h THaGenDetTest.h
-  THaSlotData.h THaUsrstrutils.h VmeModule.h
+THaUsrstrutils.h THaCrateMap.h
+THaCodaData.h THaEpics.h
+THaCodaFile.h SimDecoder.h
+THaSlotData.h THaEvData.h
+CodaDecoder.h Module.h VmeModule.h
+FastbusModule.h Lecroy1877Module.h
+Lecroy1881Module.h Lecroy1875Module.h
+Fadc250Module.h GenScaler.h
+Scaler560.h Scaler1151.h
+Scaler3800.h Scaler3801.h
+F1TDCModule.h Caen1190Module.h
+Caen775Module.h Caen792Module.h
+THaBenchmark.h
   )
 
 ROOT_GENERATE_DICTIONARY(haDecodeDict ${headers} 
   INCLUDEDIRS include ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/../src 
-  LINKDEF haDecode_LinkDef.h  
+  LINKDEF include/haDecode_LinkDef.h  
   OPTIONS -p)
 set(PCM_FILE  ${CMAKE_CURRENT_BINARY_DIR}/haDecodeDict_rdict.pcm)
 
-add_custom_target(haDecode_ROOTDICTS DEPENDS ${haDecode_src} ${headers} haDecode_LinkDef.h haDecodeDict.cxx)
+add_custom_target(haDecode_ROOTDICTS DEPENDS ${haDecode_src} ${headers} include/haDecode_LinkDef.h haDecodeDict.cxx)
 
 
 add_library(dc 
