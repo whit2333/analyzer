@@ -9,6 +9,7 @@
 //
 //////////////////////////////////////////////////////////////////////////
 
+#include "THaGlobals.h"
 #include "THaCut.h"
 #include "THaPrintOption.h"
 #include "TMath.h"

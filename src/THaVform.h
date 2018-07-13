@@ -7,6 +7,7 @@
 //                                                                      //
 //////////////////////////////////////////////////////////////////////////
 
+#include "THaGlobals.h"
 #include "THaFormula.h"
 #include "THaOutput.h"
 #include "TTree.h"

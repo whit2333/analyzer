@@ -15,7 +15,6 @@
 #include "v5/TFormula.h"
 #endif
 
-#include "THaGlobals.h"
 #include <vector>
 #include <iostream>
 
