@@ -45,6 +45,7 @@ set(podd_src
 
 # This would be alot easier if there was an "include" directory
 set(headers
+  VarDef.h VarType.h
 THaFormula.h THaVform.h THaVhist.h THaVar.h
 THaVarList.h THaCut.h THaNamedList.h THaCutList.h
 THaInterface.h THaRunBase.h THaCodaRun.h THaRun.h
@@ -143,7 +144,9 @@ target_include_directories(analyzer
 )
 
 #target_compile_features(HallA PRIVATE cxx_auto_type)
-target_compile_options(analyzer PRIVATE $<$<CXX_COMPILER_ID:GNU>:-DHAS_SSTREAM=1>)
+target_compile_options(analyzer 
+  PRIVATE -fPIC
+  PRIVATE $<$<CXX_COMPILER_ID:GNU>:-DHAS_SSTREAM=1>)
 target_link_libraries(analyzer
   PRIVATE HallA
   PRIVATE dc

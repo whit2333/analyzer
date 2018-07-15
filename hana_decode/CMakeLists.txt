@@ -30,6 +30,8 @@ VmeModule.cxx
   )
 
 set(headers
+  Decoder.h
+  PipeliningModule.h
 THaUsrstrutils.h THaCrateMap.h
 THaCodaData.h THaEpics.h
 THaCodaFile.h SimDecoder.h
