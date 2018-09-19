@@ -56,6 +56,7 @@ public:
   THaEvData*     GetDecoder()          const;
   TList*         GetApps()             const  { return fApps; }
   TList*         GetPhysics()          const  { return fPhysics; }
+  THaEpicsEvtHandler* GetEpicsEvtHandler() { return fEpicsHandler; }
   TList*         GetEvtHandlers()      const  { return fEvtHandlers; }
   TList*         GetPostProcess()      const  { return fPostProcess; }
   Bool_t         HasStarted()          const  { return fAnalysisStarted; }
@@ -73,6 +74,7 @@ public:
   void           SetCompressionLevel( Int_t level ) { fCompress = level; }
   void           SetMarkInterval( UInt_t interval ) { fMarkInterval = interval; }
   void           SetVerbosity( Int_t level )        { fVerbose = level; }
+  void           SetCodaVersion(Int_t vers);
 
   // Set the EPICS event type
   void           SetEpicsEvtType(Int_t itype);
@@ -124,6 +126,7 @@ protected:
   THaEvent*      fEvent;           //The event structure to be written to file.
   Int_t          fNStages;         //Number of analysis stages
   Int_t          fNCounters;       //Number of counters
+  Int_t          fWantCodaVers;    // Version of CODA assumed for file
   Stage_t*       fStages;          //[fNStages] Parameters for analysis stages
   Counter_t*     fCounters;        //[fNCounters] Statistics counters
   UInt_t         fNev;             //Number of events read during most recent replay
