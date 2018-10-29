@@ -90,14 +90,17 @@ if(ONLINE_ET)
   target_compile_definitions(${LIBNAME} PUBLIC ONLINE_ET)
 endif()
 
+get_target_property(EVIO_INCLUDE_DIR EVIO::EVIO INTERFACE_INCLUDE_DIRECTORIES)
+message("EVIO_INCLUDE_DIR  : ${EVIO_INCLUDE_DIR}")
+
 target_include_directories(${LIBNAME}
   PUBLIC
-    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+    $<INSTALL_INTERFACE:include>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
   )
 target_link_libraries(${LIBNAME}
   PUBLIC
-    ROOT::Core
+  ROOT::Core ROOT::MathCore ROOT::Graf ROOT::Matrix ROOT::Physics ROOT::Rint ROOT::Tree
     ${ONLIBS}    # et.h is in the THaEtClient.h public interface
   PRIVATE
     EVIO::EVIO
@@ -118,10 +121,10 @@ install(FILES ${allheaders} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 #----------------------------------------------------------------------------
 # libdcDict dictionary
 build_root_dictionary(lib${LIBNAME} ${headers}
-  INCLUDEDIRS -I${CMAKE_CURRENT_SOURCE_DIR} -I${CMAKE_SOURCE_DIR}/src
+  INCLUDEDIRS -I${CMAKE_CURRENT_SOURCE_DIR} -I${CMAKE_SOURCE_DIR}/src -I${EVIO_INCLUDE_DIR}
   TARGETS ${LIBNAME}
   PCMNAME ${LIBNAME}
-  LINKDEF ${ALTLIBNAME}_LinkDef.h
+  LINKDEF ${CMAKE_CURRENT_SOURCE_DIR}/haDecode_LinkDef.h
   )
 
 #----------------------------------------------------------------------------

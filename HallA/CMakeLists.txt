@@ -43,7 +43,7 @@ endif()
 target_link_libraries(${LIBNAME}
   PUBLIC
     ${PROJECT_NAME}::Podd
-    ROOT::Libraries
+    ROOT::Core
   )
 set_target_properties(${LIBNAME} PROPERTIES
   SOVERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
@@ -62,6 +62,7 @@ install(FILES ${headers} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 #----------------------------------------------------------------------------
 # libHallADict
 build_root_dictionary(${LIBNAME} ${headers}
+  INCLUDEDIRS -I${CMAKE_CURRENT_SOURCE_DIR} -I${CMAKE_SOURCE_DIR}/src -I${CMAKE_CURRENT_SOURCE_DIR}/../Podd -I${CMAKE_CURRENT_SOURCE_DIR}/../hana_decode
   TARGETS ${LIBNAME}
-  LINKDEF ${LIBNAME}_LinkDef.h
+  LINKDEF ${CMAKE_CURRENT_SOURCE_DIR}/${LIBNAME}_LinkDef.h
   )

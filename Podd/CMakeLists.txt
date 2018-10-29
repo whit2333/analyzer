@@ -83,7 +83,7 @@ endif()
 target_link_libraries(${LIBNAME}
   PUBLIC
     ${PROJECT_NAME}::Decode
-    ROOT::Libraries
+    ROOT::Core
   )
 set_target_properties(${LIBNAME} PROPERTIES
   SOVERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
@@ -99,9 +99,13 @@ install(TARGETS ${LIBNAME}
   )
 install(FILES ${allheaders} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
+get_target_property(DECODE_INCLUDE_DIR ${PROJECT_NAME}::Decode INTERFACE_INCLUDE_DIRECTORIES)
+#string(STRIP "${DECODE_INCLUDE_DIR}" DECODE_INCLUDE_DIR)
+message("DECODE_INCLUDE_DIR  : ${DECODE_INCLUDE_DIR}")
 #----------------------------------------------------------------------------
 # libHallADict
 build_root_dictionary(${LIBNAME} ${headers}
+  INCLUDEDIRS -I${CMAKE_CURRENT_SOURCE_DIR}/../hana_decode -I${CMAKE_CURRENT_SOURCE_DIR} -I${CMAKE_SOURCE_DIR}/src 
   TARGETS ${LIBNAME}
-  LINKDEF ${LIBNAME}_LinkDef.h
+  LINKDEF ${CMAKE_CURRENT_SOURCE_DIR}/Podd_LinkDef.h
   )
