@@ -13,9 +13,9 @@
 #include <string> 
 #include <cstring>
 
+#include "TH1F.h"
+#include "TH2F.h"
 class THaVar;
-class TH1F;
-class TH2F;
 class THaVform;
 class THaVhist;
 class THaEvData;

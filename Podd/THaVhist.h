@@ -12,9 +12,10 @@
 #include <vector>
 #include <string>
 
+#include "TH1F.h"
+#include "TH2F.h"
+
 class THaVar;
-class TH1F;
-class TH2F;
 class THaCut;
 
 using std::string;
