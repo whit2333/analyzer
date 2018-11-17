@@ -29,8 +29,8 @@ public:
   virtual bool operator<=( const THaRunBase& ) const;
   virtual bool operator>=( const THaRunBase& ) const;
 
-  // Return codes for Init/Open/ReadEvent/Close
-  enum { READ_OK = 0, READ_EOF = EOF, READ_ERROR = 32, READ_FATAL = 64 };
+  // Return codes for Init/Open/ReadEvent/Close  /EORIP(end of run in progress)
+  enum { READ_OK = 0, READ_EOF = EOF, READ_ERROR = 32, READ_FATAL = 64 , READ_EORIP = 256};
 
   // Main functions
   virtual const UInt_t* GetEvBuffer() const = 0;
