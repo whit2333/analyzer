@@ -13,6 +13,7 @@
 /////////////////////////////////////////////////////////////////////
 
 #include "THaCodaFile.h"
+#include "TSystem.h"
 #include <iostream>
 #include <cstdlib>
 #include <cstring>
@@ -102,8 +103,51 @@ namespace Decoder {
 // Must be called once per event.
     Int_t status;
     if ( handle ) {
-      status = evRead(handle, evbuffer, MAXEVLEN); // @suppress("Invalid arguments")
-       staterr("read",status);
+
+      auto a      = handleList[handle-1];
+      auto a_copy = *a;
+
+      status                = evRead(handle, evbuffer, MAXEVLEN);
+      uint32_t  event_num   = evbuffer[4]-1;
+      auto      event_type  = evbuffer[1]>>16;
+
+
+      //uint32_t        len         = 100005;
+      //const uint32_t* buffer_copy = (uint32_t*)evbuffer;
+      //int status2       = evReadNoCopy(handle, &buffer_copy, &len); // @suppress("Invalid arguments")
+      //std::cout <<  " no copy event_type  " << event_type << ", status : " << status2 << "\n";
+      //std::cout << "S_EVFILE_BADMODE    " << S_EVFILE_BADMODE << "\n";
+      //std::cout << "S_EVFILE_BADARG     " << S_EVFILE_BADARG << "\n";
+      //std::cout << "S_EVFILE_BADFILE    " << S_EVFILE_BADFILE << "\n";
+      //std::cout << "S_EVFILE_BADHANDLE  " << S_EVFILE_BADHANDLE << "\n";
+      //std::cout << "S_EVFILE_ALLOCFAIL  " << S_EVFILE_ALLOCFAIL << "\n";
+      //std::cout << "S_EVFILE_UNXPTDEOF  " << S_EVFILE_UNXPTDEOF << "\n";
+      while( (status == EOF) && (event_type!=20)) {
+        std::cout << "sleeping... event number :" << event_num 
+        << ", event_type :" << event_type 
+        << ", status :" << status << "\n";
+        gSystem->Sleep(1000);
+        //std::cout << " after : "
+        //<< " a->next " << a_copy.next << "("  << *(a_copy.next) << "), " 
+        //<< " a->left " << a_copy.left << "("  << a_copy.buf << ") \n ";
+
+        *a = a_copy;
+        // Reset the file handle to its state prior to call evRead.
+        a->next = a_copy.next;
+        a->left = a_copy.left;
+        clearerr(a->file);
+
+        status = evRead(handle, evbuffer, MAXEVLEN);
+        event_num  = evbuffer[4]-1;
+        event_type = evbuffer[1]>>16;
+        //std::cout << "looping " << event_num << ", " << event_type << ", " << status<< "\n";
+      //std::cout  
+      //<< " a->next " << a->next << "("  << *(a->next) << "), " 
+      //<< " a->left " << a->left << "("  << a->buf << ") \n ";
+      }
+      //std::cout << "done " << event_num << ", " << event_type << ", " << status<< "\n";
+      staterr("read",status);
+
     } else {
       if(CODA_VERBOSE) {
 	 cout << "codaRead ERROR: tried to access a file with handle = 0" << endl;

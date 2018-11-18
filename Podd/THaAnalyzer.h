@@ -131,6 +131,8 @@ protected:
   Counter_t*     fCounters;        //[fNCounters] Statistics counters
   UInt_t         fNev;             //Number of events read during most recent replay
   UInt_t         fMarkInterval;    //Interval for printing event numbers
+  UInt_t         fAutoSaveInterval = 1000;    //Interval for auto-saving the rootfile
+
   Int_t          fCompress;        //Compression level for ROOT output file
   Int_t          fVerbose;         //Verbosity level
   Int_t          fCountMode;       //Event counting mode (see ECountMode)

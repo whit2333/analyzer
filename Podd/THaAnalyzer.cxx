@@ -828,37 +828,39 @@ Int_t THaAnalyzer::ReadOneEvent()
   }
 
   switch( status ) {
-  case THaRunBase::READ_OK:
-    // Decode the event
-    if (to_read_file) {
-      status = fEvData->LoadEvent( fRun->GetEvBuffer() );
-    } else {
-      status = fEvData->LoadFromMultiBlock( );  // load next event in block
-    }
-    switch( status ) {
-    case THaEvData::HED_OK:     // fall through
-    case THaEvData::HED_WARN:
-      status = THaRunBase::READ_OK;
-      Incr(kNevRead);
+    case THaRunBase::READ_OK:
+      // Decode the event
+      if (to_read_file) {
+        status = fEvData->LoadEvent( fRun->GetEvBuffer() );
+      } else {
+        status = fEvData->LoadFromMultiBlock( );  // load next event in block
+      }
+      switch( status ) {
+        case THaEvData::HED_WARN:
+          //std::cout << "HED_WARN\n";
+        case THaEvData::HED_OK:     // fall through
+          status = THaRunBase::READ_OK;
+          Incr(kNevRead);
+          break;
+        case THaEvData::HED_ERR:
+          // Decoding error
+          status = THaRunBase::READ_ERROR;
+          Incr(kDecodeErr);
+          break;
+        case THaEvData::HED_FATAL:
+          status = THaRunBase::READ_FATAL;
+          break;
+      }
       break;
-    case THaEvData::HED_ERR:
-      // Decoding error
-      status = THaRunBase::READ_ERROR;
-      Incr(kDecodeErr);
-      break;
-    case THaEvData::HED_FATAL:
-      status = THaRunBase::READ_FATAL;
-      break;
-    }
-    break;
 
-  case THaRunBase::READ_EOF:    // fall through
-  case THaRunBase::READ_FATAL:
-    // Just exit on EOF - don't count it
-    break;
-  default:
-    Incr(kCodaErr);
-    break;
+    case THaRunBase::READ_EOF:    // fall through
+      std::cout << " READ_EOF\n";
+    case THaRunBase::READ_FATAL:
+      // Just exit on EOF - don't count it
+      break;
+    default:
+      Incr(kCodaErr);
+      break;
   }
 
   if( fDoBench ) fBench->Stop("RawDecode");
@@ -1377,14 +1379,30 @@ Int_t THaAnalyzer::Process( THaRunBase* run )
     fRun->Write("Run_Data");  // Save run data to first ROOT file
   }
 
-  while ( !terminate && fNev < nlast &&
-	  (status = ReadOneEvent()) != THaRunBase::READ_EOF ) {
+  while ( !terminate && (fNev < nlast)) { 
+    //&& (status = ReadOneEvent()) != THaRunBase::READ_EOF ) {
+    //std::cout << " evtype(last) " << fEvData->GetEvType() << "\n";
+    status = ReadOneEvent();
+    //std::cout << " status " << status << "\n";
+    //std::cout << " evtype " << fEvData->GetEvType() << "\n";
+
+    if( status == THaRunBase::READ_EOF  ) {
+      //if(  fEvData->GetEvType() != 20 ) {
+      //  std::cout << " sleeping....";
+      //  //gSystem->Sleep(1000);
+      //}else {
+      //}
+      break;
+    }
 
     //--- Skip events with errors, unless fatal
-    if( status == THaRunBase::READ_FATAL )
+    if( status == THaRunBase::READ_FATAL ){
+      std::cout << " READ_FATAL\n";
       break;
-    if( status != THaRunBase::READ_OK )
+    }
+    if( status != THaRunBase::READ_OK ){
       continue;
+    }
 
     UInt_t evnum = fEvData->GetEvNum();
 
@@ -1407,12 +1425,17 @@ Int_t THaAnalyzer::Process( THaRunBase* run )
     }
 
     //--- Print marks periodically
-    if( fVerbose>1 && evnum > 0 && (evnum % fMarkInterval == 0))
-      cout << dec << evnum << endl;
+    if( (fVerbose>1) && (evnum > 0) && (evnum % fMarkInterval == 0)){
+      cout << "test run: "<< fRun->GetNumber() << ", " << dec << evnum << endl;
+    }
+    if( (evnum > 0) &&(evnum % fAutoSaveInterval == 0)){
+      fOutput->GetTree()->AutoSave("SaveSelf");
+    }
 
     //--- Update run parameters with current event
-    if( fUpdateRun )
+    if( fUpdateRun ){
       fRun->Update( fEvData );
+    }
 
     //--- Clear all tests/cuts
     if( fDoBench ) fBench->Begin("Cuts");

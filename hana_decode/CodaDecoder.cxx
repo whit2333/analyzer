@@ -122,7 +122,10 @@ Int_t CodaDecoder::LoadEvent(const UInt_t* evbuffer)
     ret = prescale_decode(evbuffer);
     if( ret != HED_OK )
       return ret;
+  } else if (event_type == END_EVTYPE) {
+    std::cout << " END_EVTYPE !!!!!\n";
   }
+
   if (event_type <= MAX_PHYS_EVTYPE) {
      if (fCodaVersion == 3) {
          evcnt_coda3++;
