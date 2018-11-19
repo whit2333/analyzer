@@ -48,12 +48,31 @@
 #include "TDirectory.h"
 #include "THaCrateMap.h"
 
-#include <fstream>
 #include <algorithm>
-#include <iomanip>
+#include <csignal>
 #include <cstring>
 #include <exception>
+#include <fstream>
+#include <iomanip>
+#include <iostream>
 #include <stdexcept>
+
+
+static volatile sig_atomic_t sig_caught = 0;
+
+void handle_sig(int signum)
+{
+    /* in case we registered this handler for multiple signals */
+    if (signum == SIGINT) {
+        sig_caught = 1;
+    }
+    if (signum == SIGTERM) {
+        sig_caught = 2;
+    }
+    if (signum == SIGABRT) {
+        sig_caught = 3;
+    }
+}
 
 using namespace std;
 using namespace Decoder;
@@ -1378,6 +1397,8 @@ Int_t THaAnalyzer::Process( THaRunBase* run )
     fFile->cd();
     fRun->Write("Run_Data");  // Save run data to first ROOT file
   }
+  void (*prev_handler)(int);
+  prev_handler = signal (SIGINT, handle_sig);
 
   while ( !terminate && (fNev < nlast)) { 
     //&& (status = ReadOneEvent()) != THaRunBase::READ_EOF ) {
@@ -1385,6 +1406,14 @@ Int_t THaAnalyzer::Process( THaRunBase* run )
     status = ReadOneEvent();
     //std::cout << " status " << status << "\n";
     //std::cout << " evtype " << fEvData->GetEvType() << "\n";
+
+    // If an interupt signal is sent (ctrl-c)
+    // // 
+    if(sig_caught) {
+      terminate = true;
+      break;
+    }
+      
 
     if( status == THaRunBase::READ_EOF  ) {
       //if(  fEvData->GetEvType() != 20 ) {
@@ -1465,6 +1494,7 @@ Int_t THaAnalyzer::Process( THaRunBase* run )
 
   }  // End of event loop
 
+  signal (SIGINT, prev_handler);
   EndAnalysis();
 
   //--- Close the input file
