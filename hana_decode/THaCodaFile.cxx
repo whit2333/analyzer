@@ -18,9 +18,26 @@
 #include <cstdlib>
 #include <cstring>
 #include <cerrno>
+#include <csignal>
 #include "evio.h"
 
 using namespace std;
+
+static volatile sig_atomic_t sig_caught = 0;
+
+void handle_sig(int signum)
+{
+    /* in case we registered this handler for multiple signals */
+    if (signum == SIGINT) {
+        sig_caught = 1;
+    }
+    if (signum == SIGTERM) {
+        sig_caught = 2;
+    }
+    if (signum == SIGABRT) {
+        sig_caught = 3;
+    }
+}
 
 namespace Decoder {
 
@@ -81,9 +98,12 @@ namespace Decoder {
 	      fCodaVersion = 3;
 	  }
       }
+
+
       free(d_fname); free(d_flags), free(d_v);
       staterr("open",status);
       return ReturnCode(status);
+
   };
 
 
@@ -122,11 +142,22 @@ namespace Decoder {
       //std::cout << "S_EVFILE_BADHANDLE  " << S_EVFILE_BADHANDLE << "\n";
       //std::cout << "S_EVFILE_ALLOCFAIL  " << S_EVFILE_ALLOCFAIL << "\n";
       //std::cout << "S_EVFILE_UNXPTDEOF  " << S_EVFILE_UNXPTDEOF << "\n";
+      void (*prev_handler)(int) = nullptr;
+      int sleep_count = 0;
       while( (status == EOF) && (event_type!=20)) {
-        std::cout << "sleeping... event number :" << event_num 
-        << ", event_type :" << event_type 
-        << ", status :" << status << "\n";
-        gSystem->Sleep(1000);
+
+        if(sleep_count == 0)  {
+          prev_handler = signal (SIGINT, handle_sig);
+        }
+        if( sleep_count > 100) {
+          break;
+        }
+        if(sig_caught) {
+          break;
+        }
+
+        std::cout << "waiting for more events at event " << event_num  << ". (" << sleep_count << "/100) \n";
+        gSystem->Sleep(5000);
         //std::cout << " after : "
         //<< " a->next " << a_copy.next << "("  << *(a_copy.next) << "), " 
         //<< " a->left " << a_copy.left << "("  << a_copy.buf << ") \n ";
@@ -140,10 +171,15 @@ namespace Decoder {
         status = evRead(handle, evbuffer, MAXEVLEN);
         event_num  = evbuffer[4]-1;
         event_type = evbuffer[1]>>16;
+        sleep_count++;
         //std::cout << "looping " << event_num << ", " << event_type << ", " << status<< "\n";
       //std::cout  
       //<< " a->next " << a->next << "("  << *(a->next) << "), " 
       //<< " a->left " << a->left << "("  << a->buf << ") \n ";
+      }
+
+      if(sleep_count > 0) {
+        signal (SIGINT, prev_handler);
       }
       //std::cout << "done " << event_num << ", " << event_type << ", " << status<< "\n";
       staterr("read",status);
