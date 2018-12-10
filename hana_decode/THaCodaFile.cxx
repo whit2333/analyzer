@@ -119,11 +119,12 @@ namespace Decoder {
 
 
   Int_t THaCodaFile::codaRead() {
-// codaRead: Reads data from file, stored in evbuffer.
-// Must be called once per event.
-    Int_t status;
-    if ( handle ) {
+    // codaRead: Reads data from file, stored in evbuffer.
+    // Must be called once per event.
+    Int_t status = 0;
+    if (handle) {
 
+      // Get a pointer and copy of the evio file handle
       auto a      = handleList[handle-1];
       auto a_copy = *a;
 
@@ -132,8 +133,9 @@ namespace Decoder {
       auto      event_type  = evbuffer[1]>>16;
 
       void (*prev_handler)(int) = nullptr;
-      int sleep_count = 0;
+      int sleep_count           = 0;
       // event_type == 20 is CODA end-of-run event
+      // issued when the coda run is (normally) stopped 
       while( (status == EOF) && (event_type != 20) ) {
 
         if(sleep_count == 0)  {
