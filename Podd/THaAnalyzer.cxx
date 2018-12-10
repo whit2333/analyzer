@@ -58,7 +58,7 @@
 #include <stdexcept>
 
 
-static volatile sig_atomic_t sig_caught = 0;
+volatile sig_atomic_t sig_caught = 0;
 
 void handle_sig(int signum)
 {

@@ -9,6 +9,7 @@
 
 #include "TObject.h"
 #include "TString.h"
+#include <csignal>
 
 class THaEvent;
 class THaRunBase;
@@ -23,6 +24,10 @@ class THaEvData;
 class THaPostProcess;
 class THaCrateMap;
 class THaEpicsEvtHandler;
+
+extern volatile sig_atomic_t sig_caught;
+
+void handle_sig(int signum);
 
 class THaAnalyzer : public TObject {
 

@@ -152,7 +152,7 @@ Int_t THaRun::Open()
 // Get fCodaVersion from data; however, if it was already defined
 // by the analyzer script use that instead.
   if (fCodaVersion == 0) fCodaVersion = fCodaData->getCodaVersion();
-  cout << "in THaRun::Open:  coda version "<<fCodaVersion<<endl;
+  //cout << "in THaRun::Open:  coda version "<<fCodaVersion<<endl;
   if( st == 0 )
     fOpened = kTRUE;
   return ReturnCode( st );
@@ -206,12 +206,13 @@ Int_t THaRun::ReadInitInfo()
 
 	// Inspect event and extract run parameters if appropriate
 	Int_t st = Update( evdata );
-	//FIXME: debug
-	if( st == 1 )
-	  cout << "Prestart at " << nev << endl;
-	else if( st == 2 )
-	  cout << "Prescales at " << nev << endl;
-	else if ( st < 0 ) {
+	////FIXME: debug
+	//if( st == 1 )
+	//  cout << "Prestart at " << nev << endl;
+	//else if( st == 2 )
+	//  cout << "Prescales at " << nev << endl;
+	//else 
+        if ( st < 0 ) {
 	  status = READ_ERROR;
 	  break;
 	}

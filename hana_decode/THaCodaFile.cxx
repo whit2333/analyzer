@@ -131,25 +131,19 @@ namespace Decoder {
       uint32_t  event_num   = evbuffer[4]-1;
       auto      event_type  = evbuffer[1]>>16;
 
-
-      //uint32_t        len         = 100005;
-      //const uint32_t* buffer_copy = (uint32_t*)evbuffer;
-      //int status2       = evReadNoCopy(handle, &buffer_copy, &len); // @suppress("Invalid arguments")
-      //std::cout <<  " no copy event_type  " << event_type << ", status : " << status2 << "\n";
-      //std::cout << "S_EVFILE_BADMODE    " << S_EVFILE_BADMODE << "\n";
-      //std::cout << "S_EVFILE_BADARG     " << S_EVFILE_BADARG << "\n";
-      //std::cout << "S_EVFILE_BADFILE    " << S_EVFILE_BADFILE << "\n";
-      //std::cout << "S_EVFILE_BADHANDLE  " << S_EVFILE_BADHANDLE << "\n";
-      //std::cout << "S_EVFILE_ALLOCFAIL  " << S_EVFILE_ALLOCFAIL << "\n";
-      //std::cout << "S_EVFILE_UNXPTDEOF  " << S_EVFILE_UNXPTDEOF << "\n";
       void (*prev_handler)(int) = nullptr;
       int sleep_count = 0;
-      while( (status == EOF) && (event_type!=20)) {
+      // event_type == 20 is CODA end-of-run event
+      while( (status == EOF) && (event_type != 20) ) {
 
         if(sleep_count == 0)  {
           prev_handler = signal (SIGINT, handle_sig);
         }
         if( sleep_count > 100) {
+          // sleep counter takes care of the case where the DAQ has crashed.
+          // If it is still running but the baem is off, the count might go up 
+          // but it will never reach 100 because epics and scaler 
+          // events are still written to disk.
           break;
         }
         if(sig_caught) {
@@ -158,9 +152,6 @@ namespace Decoder {
 
         std::cout << "waiting for more events at event " << event_num  << ". (" << sleep_count << "/100) \n";
         gSystem->Sleep(5000);
-        //std::cout << " after : "
-        //<< " a->next " << a_copy.next << "("  << *(a_copy.next) << "), " 
-        //<< " a->left " << a_copy.left << "("  << a_copy.buf << ") \n ";
 
         *a = a_copy;
         // Reset the file handle to its state prior to call evRead.
@@ -168,14 +159,12 @@ namespace Decoder {
         a->left = a_copy.left;
         clearerr(a->file);
 
+        // read again 
         status = evRead(handle, evbuffer, MAXEVLEN);
         event_num  = evbuffer[4]-1;
         event_type = evbuffer[1]>>16;
         sleep_count++;
         //std::cout << "looping " << event_num << ", " << event_type << ", " << status<< "\n";
-      //std::cout  
-      //<< " a->next " << a->next << "("  << *(a->next) << "), " 
-      //<< " a->left " << a->left << "("  << a->buf << ") \n ";
       }
 
       if(sleep_count > 0) {
