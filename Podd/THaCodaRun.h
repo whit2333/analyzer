@@ -22,6 +22,7 @@ public:
   virtual const UInt_t* GetEvBuffer() const;
   virtual Bool_t IsOpen() const;
   virtual Int_t  ReadEvent();
+  virtual Int_t  SkipToEndOfFile(Int_t skip_max = -1);
   virtual Int_t  GetDataVersion() { return GetCodaVersion(); }
   virtual Int_t  SetDataVersion( Int_t version ) { return SetCodaVersion(version); }
   Int_t GetCodaVersion();

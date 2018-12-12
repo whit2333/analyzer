@@ -33,6 +33,8 @@ public:
   Int_t codaOpen(const char* filename, Int_t mode=1);
   Int_t codaOpen(const char* filename, const char* rw, Int_t mode=1);
   Int_t codaClose();
+  Int_t skipOneEvent();
+  Int_t skipToEndOfFile(Int_t max_events = -1);
   Int_t codaRead();
   Int_t codaWrite(const UInt_t* evbuffer);
   Int_t filterToFile(const char* output_file); // filter to an output file

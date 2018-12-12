@@ -94,6 +94,44 @@ namespace Decoder {
     }
     return ReturnCode(S_SUCCESS);
   }
+  //_____________________________________________________________________________
+
+  Int_t THaCodaFile::skipOneEvent() {
+    // Skip just one event by reading coda file
+    // returns the event_type
+    Int_t status = 0;
+    if (handle) {
+      // Get a pointer and copy of the evio file handle
+      auto a      = handleList[handle-1];
+      auto a_copy = *a;
+      status                = evRead(handle, evbuffer, MAXEVLEN);
+      uint32_t  event_num   = evbuffer[4]-1;
+      auto      event_type  = evbuffer[1]>>16;
+      if( event_type == 20 ) {
+        // If we hit the end-of-run event, Rewind 
+        *a = a_copy;
+        // Reset the file handle to its state prior to call evRead.
+        a->next = a_copy.next;
+        a->left = a_copy.left;
+        clearerr(a->file);
+        return EOF;
+      }
+    } else {
+      status = S_EVFILE_BADHANDLE;
+    }
+    return status;
+  }
+  //_____________________________________________________________________________
+
+  Int_t THaCodaFile::skipToEndOfFile(Int_t max_events) {
+    // Here we will skip to the end of the coda file or max_events
+    Int_t i_event = 0;
+    while( (skipOneEvent() != EOF) && (i_event != max_events) ) {
+      i_event++;
+    }
+    return i_event;
+  }
+  //_____________________________________________________________________________
 
 
   Int_t THaCodaFile::codaRead() {
@@ -101,7 +139,6 @@ namespace Decoder {
     // Must be called once per event.
     Int_t status = 0;
     if (handle) {
-
       // Get a pointer and copy of the evio file handle
       auto a      = handleList[handle-1];
       auto a_copy = *a;

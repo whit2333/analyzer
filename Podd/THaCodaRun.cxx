@@ -10,6 +10,7 @@
 
 #include "THaCodaRun.h"
 #include "THaCodaData.h"
+#include "THaCodaFile.h"
 #include <cassert>
 
 using namespace std;
@@ -130,8 +131,18 @@ Bool_t THaCodaRun::IsOpen() const
   assert( fCodaData );
   return fCodaData->isOpen();
 }
-
 //_____________________________________________________________________________
+
+Int_t THaCodaRun::SkipToEndOfFile(Int_t skip_max)
+{
+  auto codafile = dynamic_cast<Decoder::THaCodaFile*>( fCodaData );
+  if( codafile ) {
+    return codafile->skipToEndOfFile(skip_max);
+  }
+  return 0;
+}
+//_____________________________________________________________________________
+
 Int_t THaCodaRun::ReadEvent()
 {
   // Read one event from CODA file.
