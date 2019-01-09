@@ -21,9 +21,13 @@
 #include <csignal>
 #include "evio.h"
 
+#include <chrono>
+#include <thread>
+
+
 using namespace std;
 
-static volatile sig_atomic_t sig_caught = 0;
+volatile sig_atomic_t sig_caught = 0;
 
 void handle_sig(int signum)
 {
@@ -166,9 +170,11 @@ namespace Decoder {
         if(sig_caught) {
           break;
         }
-
+        if(sleep_count%10==0){
         std::cout << "waiting for more events at event " << event_num  << ". (" << sleep_count << "/100) \n";
-        gSystem->Sleep(5000);
+        }
+        //gSystem->Sleep(5000);
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
 
         *a = a_copy;
         // Reset the file handle to its state prior to call evRead.

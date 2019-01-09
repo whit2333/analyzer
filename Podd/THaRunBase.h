@@ -37,7 +37,7 @@ public:
   virtual Int_t        Init();
   virtual Int_t        Open() = 0;
   virtual Int_t        ReadEvent() = 0;
-  virtual Int_t        SkipToEndOfFile(Int_t skip_max = -1){}
+  virtual Int_t        SkipToEndOfFile(Int_t skip_max = -1){ return 0;}
   virtual Int_t        Close() = 0;
 
   // Auxiliary functions

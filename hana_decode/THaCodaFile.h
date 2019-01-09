@@ -21,6 +21,9 @@
 #include "Decoder.h"
 #include "TArrayI.h"
 
+#include <csignal>
+extern volatile sig_atomic_t sig_caught;
+
 namespace Decoder {
 
 class THaCodaFile : public THaCodaData {
