@@ -40,6 +40,11 @@ if("${CMAKE_PROJECT_NAME}" STREQUAL "${PROJECT_NAME}")
 endif()
 add_subdirectory(cmake)
 
+install(DIRECTORY include/podd2 
+  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} )
+
+
+
 #----------------------------------------------------------------------------
 # Install support files
 # install(DIRECTORY scripts/ DESTINATION scripts
