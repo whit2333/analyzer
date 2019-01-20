@@ -25,7 +25,6 @@ include(${ROOT_USE_FILE})
 #config_add_dependency(ROOT ${minimum_root_version})
 
 find_package(spdlog QUIET)
-
 if(NOT spdlog_FOUND) 
   message("spdlog not found.")
   message("Using builtin spdlog.")
@@ -34,8 +33,15 @@ if(NOT spdlog_FOUND)
 else()
   get_target_property(SPDLOG_INCLUDE_DIR spdlog::spdlog INTERFACE_INCLUDE_DIRECTORIES)
 endif()
+#message( "SPDLOG_INCLUDE_DIR ${SPDLOG_INCLUDE_DIR}")
 
-  message( "SPDLOG_INCLUDE_DIR ${SPDLOG_INCLUDE_DIR}")
+#https://github.com/fmtlib/fmt.git
+#find_package(fmt QUIET)
+#if(NOT fmt_FOUND) 
+  #add_subdirectory(fmt)
+  add_subdirectory(src/3rd_party/fmt EXCLUDE_FROM_ALL)
+  #endif()
+
 #----------------------------------------------------------------------------
 # Set up the compiler flags
 set_compiler_flags("${ROOT_CXX_FLAGS}")

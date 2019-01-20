@@ -89,6 +89,7 @@ target_link_libraries(${LIBNAME}
     ${PROJECT_NAME}::Decode
     ROOT::Core
     PUBLIC spdlog::spdlog
+    PRIVATE fmt-header-only
   )
 set_target_properties(${LIBNAME} PROPERTIES
   SOVERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}

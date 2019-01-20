@@ -31,6 +31,8 @@
 #include <vector>
 #include <cassert>
 
+#include <fmt/core.h>
+
 using namespace std;
 using namespace Podd;
 
@@ -489,8 +491,10 @@ void THaCutList::Print( Option_t* option ) const
     TIter next( fBlocks );
     while( THaNamedList* plist = static_cast<THaNamedList*>( next() )) {
       bool is_stats = !strcmp( opt.GetOption(0), kPRINTSTATS );
-      if(  is_stats && strlen( plist->GetName() ) )
-	cout << "BLOCK: " << plist->GetName() << endl;
+      if(  is_stats && strlen( plist->GetName() ) ){
+	//cout << "BLOCK: " << plist->GetName() << endl;
+        fmt::print("BLOCK: {}\n", plist->GetName());
+      }
       plist->PrintOpt( opt.Data() );
       if ( is_stats ) cout << endl;
     }

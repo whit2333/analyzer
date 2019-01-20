@@ -59,8 +59,9 @@ void THaNamedList::PrintOpt( Option_t* opt ) const
 
   TIter next(this);
   TObject* object;
-  while((object = next()))
+  while((object = next())){
     object->Print(opt);
+  }
 }
 
 //_____________________________________________________________________________

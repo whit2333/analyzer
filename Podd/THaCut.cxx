@@ -18,6 +18,8 @@
 #include <algorithm>
 #include <cstring>
 
+#include <fmt/core.h>
+
 using namespace std;
 
 //_____________________________________________________________________________
@@ -244,21 +246,23 @@ void THaCut::Print( Option_t* option ) const
   streamsize prec = cout.precision();
   if ( s.IsLine() ) {
 
-    cout.flags( ios::left );
-    cout << setw(nn) << GetName() << "  "
-	 << setw(nt) << GetTitle() << "  ";
-    if( !strcmp( s.GetOption(), kPRINTLINE )) {
-      cout << setw(1)  << (bool)fLastResult << "  "
-	   << setw(nb) << fBlockname << "  ";
-    }
-    cout << setw(9)  << fNCalled << "  "
-	 << setw(np) << fNPassed << " ";
-    cout << setprecision(3);
-    if( fNCalled > 0 )
-      cout << "(" << 100.0*((float)fNPassed)/((float)fNCalled) << "%)";
-    else
-      cout << "(0.0%)";
+    fmt::print("{:<{}} {:<{}} ",GetName(), nn, GetTitle(), nt);
 
+    //cout.flags(ios::left);
+    //cout << setw(nn) << GetName() << "  " << setw(nt) << GetTitle() << "  ";
+    if( !strcmp( s.GetOption(), kPRINTLINE )) {
+      //cout << setw(1) << (bool)fLastResult << "  " << setw(nb) << fBlockname << "  ";
+      fmt::print("{:1} {:<{}} ", (bool)fLastResult, fBlockname.Data(), nb);
+    }
+    fmt::print("{:>9}  {:>{}} ", fNCalled, fNPassed, np);
+    // cout << setw(9) << fNCalled << "  " << setw(np) << fNPassed << " ";
+    //cout << setprecision(3);
+    if (fNCalled > 0){
+      fmt::print("({:>f3.1}%)",100.0 * ((float)fNPassed) / ((float)fNCalled));
+      //cout << "(" << 100.0 * ((float)fNPassed) / ((float)fNCalled) << "%)";
+    } else{
+      cout << "(  0.0%)";
+    }
     cout << endl;
 
   } else {
