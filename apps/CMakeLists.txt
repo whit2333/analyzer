@@ -17,6 +17,8 @@ add_executable(${ANALYZER} analyzer.cxx)
 target_link_libraries(${ANALYZER}
   PRIVATE
     Podd::HallA
+    PRIVATE spdlog::spdlog
+    PRIVATE fmt::fmt
   )
 target_compile_options(${ANALYZER}
   PUBLIC
@@ -44,6 +46,8 @@ if(${PROJECT_NAME_UC}_BUILD_UTILS)
   target_link_libraries(${DBCONVERT}
     PRIVATE
       Podd::HallA
+    PUBLIC spdlog::spdlog
+    PRIVATE fmt::fmt
     )
   target_compile_options(${DBCONVERT}
     PRIVATE

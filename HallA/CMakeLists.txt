@@ -25,6 +25,9 @@ add_library(${LIBNAME} SHARED ${src} ${headers} ${LIBNAME}Dict.cxx)
 add_library(${PROJECT_NAME}::${LIBNAME} ALIAS ${LIBNAME})
 
 target_include_directories(${LIBNAME}
+  PRIVATE
+    $<BUILD_INTERFACE:${SPDLOG_INCLUDE_DIR}>
+    $<BUILD_INTERFACE:${FMT_INCLUDE_DIR}>
   PUBLIC
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
@@ -44,6 +47,7 @@ target_link_libraries(${LIBNAME}
   PUBLIC
     ${PROJECT_NAME}::Podd
     ROOT::Core
+  PRIVATE fmt::fmt
   )
 set_target_properties(${LIBNAME} PROPERTIES
   SOVERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
@@ -62,7 +66,14 @@ install(FILES ${headers} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 #----------------------------------------------------------------------------
 # libHallADict
 build_root_dictionary(${LIBNAME} ${headers}
-  INCLUDEDIRS -I${CMAKE_CURRENT_SOURCE_DIR} -I${CMAKE_SOURCE_DIR}/src -I${CMAKE_CURRENT_SOURCE_DIR}/../Podd -I${CMAKE_CURRENT_SOURCE_DIR}/../hana_decode
+  INCLUDEDIRS 
+  $<BUILD_INTERFACE:-I${SPDLOG_INCLUDE_DIR}>
+  $<BUILD_INTERFACE:-I${FMT_INCLUDE_DIR}>
+  -I${CMAKE_CURRENT_SOURCE_DIR} 
+  -I${CMAKE_SOURCE_DIR}/src 
+  -I${CMAKE_CURRENT_SOURCE_DIR}/../Podd 
+  -I${CMAKE_CURRENT_SOURCE_DIR}/../hana_decode
+  -I${CMAKE_CURRENT_SOURCE_DIR}/../include
   TARGETS ${LIBNAME}
   LINKDEF ${CMAKE_CURRENT_SOURCE_DIR}/${LIBNAME}_LinkDef.h
   )

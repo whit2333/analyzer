@@ -258,7 +258,7 @@ void THaCut::Print( Option_t* option ) const
     // cout << setw(9) << fNCalled << "  " << setw(np) << fNPassed << " ";
     //cout << setprecision(3);
     if (fNCalled > 0){
-      fmt::print("({:>f3.1}%)",100.0 * ((float)fNPassed) / ((float)fNCalled));
+      fmt::print("({:>3.1f}%)",100.0 * ((float)fNPassed) / ((float)fNCalled));
       //cout << "(" << 100.0 * ((float)fNPassed) / ((float)fNCalled) << "%)";
     } else{
       cout << "(  0.0%)";

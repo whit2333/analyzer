@@ -24,10 +24,26 @@ include(${ROOT_USE_FILE})
 # Register this dependency - it's in our public interface
 #config_add_dependency(ROOT ${minimum_root_version})
 
+#https://github.com/fmtlib/fmt.git
+find_package(fmt REQUIRED)
+#jif(NOT fmt_FOUND) 
+#j  message("fmt not found.")
+#j  set(BUILD_SHARED_LIBS TRUE)
+#j  add_subdirectory(src/3rd_party/fmt)
+#j  #add_subdirectory(src/3rd_party/fmt EXCLUDE_FROM_ALL)
+#j  set(FMT_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/src/3rd_party/fmt/include)
+#jelse()
+get_target_property(FMT_INCLUDE_DIR fmt::fmt INTERFACE_INCLUDE_DIRECTORIES)
+#jendif()
+add_definitions(-DSPDLOG_FMT_EXTERNAL )
+#find_package(fmt QUIET)
+
+
 find_package(spdlog QUIET)
 if(NOT spdlog_FOUND) 
   message("spdlog not found.")
   message("Using builtin spdlog.")
+  set(SPDLOG_FMT_EXTERNAL TRUE)
   add_subdirectory(src/3rd_party/spdlog)
   set(SPDLOG_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/src/3rd_party/spdlog/include)
 else()
@@ -35,12 +51,6 @@ else()
 endif()
 #message( "SPDLOG_INCLUDE_DIR ${SPDLOG_INCLUDE_DIR}")
 
-#https://github.com/fmtlib/fmt.git
-#find_package(fmt QUIET)
-#if(NOT fmt_FOUND) 
-  #add_subdirectory(fmt)
-  add_subdirectory(src/3rd_party/fmt EXCLUDE_FROM_ALL)
-  #endif()
 
 #----------------------------------------------------------------------------
 # Set up the compiler flags

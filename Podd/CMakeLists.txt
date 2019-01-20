@@ -66,6 +66,7 @@ add_library(${PROJECT_NAME}::${LIBNAME} ALIAS ${LIBNAME})
 target_include_directories(${LIBNAME}
   PRIVATE
     $<BUILD_INTERFACE:${SPDLOG_INCLUDE_DIR}>
+    $<BUILD_INTERFACE:${FMT_INCLUDE_DIR}>
   PUBLIC 
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
@@ -89,7 +90,7 @@ target_link_libraries(${LIBNAME}
     ${PROJECT_NAME}::Decode
     ROOT::Core
     PUBLIC spdlog::spdlog
-    PRIVATE fmt-header-only
+    PUBLIC fmt::fmt
   )
 set_target_properties(${LIBNAME} PROPERTIES
   SOVERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
@@ -113,6 +114,7 @@ message("DECODE_INCLUDE_DIR  : ${DECODE_INCLUDE_DIR}")
 build_root_dictionary(${LIBNAME} ${headers}
   INCLUDEDIRS 
   $<BUILD_INTERFACE:-I${SPDLOG_INCLUDE_DIR}>
+  $<BUILD_INTERFACE:-I${FMT_INCLUDE_DIR}>
   -I${CMAKE_CURRENT_SOURCE_DIR}/../hana_decode 
   -I${CMAKE_CURRENT_SOURCE_DIR} 
   -I${CMAKE_CURRENT_SOURCE_DIR}/../include
