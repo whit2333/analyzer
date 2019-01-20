@@ -64,10 +64,13 @@ add_library(${LIBNAME} SHARED ${src} ${allheaders} ${LIBNAME}Dict.cxx)
 add_library(${PROJECT_NAME}::${LIBNAME} ALIAS ${LIBNAME})
 
 target_include_directories(${LIBNAME}
-  PUBLIC
+  PRIVATE
+    $<BUILD_INTERFACE:${SPDLOG_INCLUDE_DIR}>
+  PUBLIC 
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>  # for ha_compiledata.h
   )
 
@@ -85,6 +88,7 @@ target_link_libraries(${LIBNAME}
   PUBLIC
     ${PROJECT_NAME}::Decode
     ROOT::Core
+    PUBLIC spdlog::spdlog
   )
 set_target_properties(${LIBNAME} PROPERTIES
   SOVERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
@@ -106,7 +110,12 @@ message("DECODE_INCLUDE_DIR  : ${DECODE_INCLUDE_DIR}")
 #----------------------------------------------------------------------------
 # libHallADict
 build_root_dictionary(${LIBNAME} ${headers}
-  INCLUDEDIRS -I${CMAKE_CURRENT_SOURCE_DIR}/../hana_decode -I${CMAKE_CURRENT_SOURCE_DIR} -I${CMAKE_SOURCE_DIR}/src 
+  INCLUDEDIRS 
+  $<BUILD_INTERFACE:-I${SPDLOG_INCLUDE_DIR}>
+  -I${CMAKE_CURRENT_SOURCE_DIR}/../hana_decode 
+  -I${CMAKE_CURRENT_SOURCE_DIR} 
+  -I${CMAKE_CURRENT_SOURCE_DIR}/../include
+  -I${CMAKE_SOURCE_DIR}/src 
   TARGETS ${LIBNAME}
   LINKDEF ${CMAKE_CURRENT_SOURCE_DIR}/Podd_LinkDef.h
   )

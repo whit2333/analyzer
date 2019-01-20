@@ -29,7 +29,9 @@ extern volatile sig_atomic_t sig_caught;
 
 void handle_sig(int signum);
 
-class THaAnalyzer : public TObject {
+#include "podd2/Logger.h"
+
+class THaAnalyzer : public podd2::RunLogging<TObject> {
 
 public:
   THaAnalyzer();

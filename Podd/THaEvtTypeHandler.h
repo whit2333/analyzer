@@ -13,6 +13,8 @@
 #include <vector>
 #include <fstream>
 
+#include "podd2/Logger.h"
+
 class THaEvtTypeHandler : public THaAnalysisObject {
 
 public:

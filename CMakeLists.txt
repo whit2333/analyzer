@@ -24,6 +24,18 @@ include(${ROOT_USE_FILE})
 # Register this dependency - it's in our public interface
 #config_add_dependency(ROOT ${minimum_root_version})
 
+find_package(spdlog QUIET)
+
+if(NOT spdlog_FOUND) 
+  message("spdlog not found.")
+  message("Using builtin spdlog.")
+  add_subdirectory(src/3rd_party/spdlog)
+  set(SPDLOG_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/src/3rd_party/spdlog/include)
+else()
+  get_target_property(SPDLOG_INCLUDE_DIR spdlog::spdlog INTERFACE_INCLUDE_DIRECTORIES)
+endif()
+
+  message( "SPDLOG_INCLUDE_DIR ${SPDLOG_INCLUDE_DIR}")
 #----------------------------------------------------------------------------
 # Set up the compiler flags
 set_compiler_flags("${ROOT_CXX_FLAGS}")

@@ -1,12 +1,27 @@
-#ifndef hcana_Logger_hh
-#define hcana_Logger_hh
+#ifndef podd2_Logger_hh
+#define podd2_Logger_hh
 
-#include "podd2/spdlog/spdlog.h"
-#include "podd2/spdlog/sinks/stdout_color_sinks.h" //support for stdout logging
-#include "podd2/spdlog/sinks/basic_file_sink.h" // support for basic file logging
+#include "spdlog/spdlog.h"
+#include "spdlog/sinks/stdout_color_sinks.h" //support for stdout logging
+#include "spdlog/sinks/basic_file_sink.h" // support for basic file logging
 
-namespace hcana {
+namespace podd2 {
 
+  template <typename Base>
+  class RunLogging : public Base {
+  protected:
+    std::shared_ptr<spdlog::logger> _logger;
+  public:
+    template <class... Args>
+    RunLogging(Args&&... args) : Base(std::forward<Args>(args)...) {
+      _logger = spdlog::get("run");
+      if(!_logger) {
+        _logger = spdlog::stdout_color_mt("run");
+      }
+      _logger->set_pattern("[%t] [%n] %^[%l]%$ %v");
+    }
+
+  };
   template <typename Base>
   class ConfigLogging : public Base {
   protected:
@@ -37,7 +52,25 @@ namespace hcana {
     }
 
   };
+
+
+
+  template <typename Base>
+  class DetectorLogging : public Base {
+  protected:
+    std::shared_ptr<spdlog::logger> _det_logger;
+  public:
+    template <class... Args>
+    DetectorLogging(Args&&... args) : Base(std::forward<Args>(args)...) {
+      _det_logger = spdlog::get("det");
+      if(!_det_logger) {
+        _det_logger = spdlog::stdout_color_mt("det");
+      }
+    }
+
+  };
 }
 
 
 #endif
+

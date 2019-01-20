@@ -90,7 +90,7 @@ THaAnalyzer* THaAnalyzer::fgAnalyzer = 0;
 // do we need to "close" scalers/EPICS analysis if we reach the event limit?
 
 //_____________________________________________________________________________
-THaAnalyzer::THaAnalyzer() :
+THaAnalyzer::THaAnalyzer() : podd2::RunLogging<TObject>(),
   fFile(NULL), fOutput(NULL), fEpicsHandler(NULL),
   fOdefFileName(kDefaultOdefFile), fEvent(NULL), fNStages(0), fNCounters(0),
   fWantCodaVers(-1),
@@ -1386,7 +1386,7 @@ Int_t THaAnalyzer::Process( THaRunBase* run )
     cout << endl << "Starting analysis" << endl;
   }
   if( fVerbose>2 && fRun->GetFirstEvent()>1 )
-    cout << "Skipping " << fRun->GetFirstEvent() << " events" << endl;
+    _logger->info("Skipping {} events", fRun->GetFirstEvent());
 
   //--- The main event loop.
 
@@ -1457,7 +1457,7 @@ Int_t THaAnalyzer::Process( THaRunBase* run )
 
     //--- Print marks periodically
     if( (fVerbose>1) && (evnum > 0) && (evnum % fMarkInterval == 0)){
-      cout << "test run: "<< fRun->GetNumber() << ", " << dec << evnum << endl;
+      _logger->info("Run {},  event", fRun->GetNumber(), evnum);
     }
     if( (evnum > 0) &&(evnum % fAutoSaveInterval == 0)){
       fOutput->GetTree()->AutoSave("SaveSelf");
