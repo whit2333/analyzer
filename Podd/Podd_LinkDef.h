@@ -113,6 +113,8 @@
 #pragma link C++ class Podd::SimDecoder+;
 #pragma link C++ class Podd::CodaRawDecoder+;
 
+#pragma link C++ class podd2::RunLogging<TNamed>+;
+
 #ifdef ONLINE_ET
 #pragma link C++ class THaOnlRun+;
 #endif

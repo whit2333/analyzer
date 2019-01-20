@@ -53,7 +53,7 @@ void THaHashList::PrintOpt( Option_t* opt ) const
 
 //______________________________________________________________________________
 THaCutList::THaCutList()
-  : fCuts(new THaHashList()), fBlocks(new THaHashList()),
+  : podd2::CutLogging<TObject>(),fCuts(new THaHashList()), fBlocks(new THaHashList()),
     fVarList(0)
 {
   // Default constructor. No variable list is defined. Either define it
@@ -64,7 +64,7 @@ THaCutList::THaCutList()
 
 //______________________________________________________________________________
 THaCutList::THaCutList( const THaCutList& rhs )
-  : fCuts(new THaHashList(rhs.fCuts)), fBlocks(new THaHashList(rhs.fBlocks)),
+  : podd2::CutLogging<TObject>(),fCuts(new THaHashList(rhs.fCuts)), fBlocks(new THaHashList(rhs.fBlocks)),
     fVarList(rhs.fVarList)
 {
   // Copy constructor
@@ -73,7 +73,7 @@ THaCutList::THaCutList( const THaCutList& rhs )
 
 //______________________________________________________________________________
 THaCutList::THaCutList( const THaVarList* lst ) 
-  : fCuts(new THaHashList()), fBlocks(new THaHashList()),
+  : podd2::CutLogging<TObject>(), fCuts(new THaHashList()), fBlocks(new THaHashList()),
     fVarList(lst)
 {
   // Constructor from variable list. Create the main lists and set the variable
@@ -331,14 +331,15 @@ Int_t THaCutList::Load( const char* filename )
   static const char* const whtspc = " \t";
 
   if( !filename || !*filename || strspn(filename," ") == strlen(filename) ) {
-    Error( here, "invalid file name, no cuts loaded" );
+    _cut_logger->error("{} invalid file name, no cuts loaded", here );
+    //Error( here, "invalid file name, no cuts loaded" );
     return -1;
   }
 
   ifstream ifile( filename );
   if( !ifile ) {
-    Error( here, "error opening input file %s, no cuts loaded",
-	   filename );
+    _cut_logger->error("{} error opening input file {}, no cuts loaded", here, filename);
+    // Error( here, "error opening input file %s, no cuts loaded", filename );
     return -2;
   }
 
@@ -439,8 +440,12 @@ Int_t THaCutList::Load( const char* filename )
 
   ifile.close();
   Int_t nbad = nlines_read-nlines_ok;
-  if( nbad>0 ) Warning( here, "%d cut(s) could not be defined, check input "
-			"file %s", nbad, filename );
+  if( nbad>0 ) {
+    _cut_logger->warn("{} {} cut(s) could not be defined, check input file {}", here, nbad,
+                      filename);
+    //    Warning( here, "%d cut(s) could not be defined, check input "
+    //			"file %s", nbad, filename );
+  }
   return nbad;
 }
 
@@ -572,8 +577,9 @@ Int_t THaCutList::Result( const char* cutname, EWarnMode mode )
 
   THaCut* pcut = static_cast<THaCut*>( fCuts->FindObject( cutname ));
   if( !pcut ) {
-    if( mode == kWarn )
-      Warning("Result", "No such cut: %s", cutname );
+    if( mode == kWarn ){
+      _cut_logger->warn("THaCutList::Result : No such cut: {}", cutname );
+    }
     return -1;
   }
   return static_cast<Int_t>( pcut->GetResult() );
@@ -644,6 +650,3 @@ UInt_t IntDigits( Int_t n )
   return j;
 }
 
-//______________________________________________________________________________
-ClassImp(THaCutList)
-ClassImp(THaHashList)

@@ -33,6 +33,8 @@
 #include "THaVarList.h"
 #include "VarDef.h"
 
+//#include "podd2/Logger.h"
+
 using namespace std;
 using namespace Decoder;
 
@@ -100,7 +102,7 @@ Int_t THaEpicsEvtHandler::Analyze(THaEvData *evdata)
 THaAnalysisObject::EStatus THaEpicsEvtHandler::Init(const TDatime&)
 {
 
-  cout << "Howdy !  We are initializing THaEpicsEvtHandler !!   name =   "<<fName<<endl;
+  _param_logger->info("Howdy !  We are initializing THaEpicsEvtHandler !!   name =  {}",fName.Data());
 
 // Set the event type to the default unless the client has already defined it.
   if (GetNumTypes()==0) SetEvtType(Decoder::EPICS_EVTYPE); 

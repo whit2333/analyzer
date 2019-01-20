@@ -80,7 +80,21 @@ namespace podd2 {
       }
       _hit_logger->set_pattern("[%t] [%n] %^[%l]%$ %v");
     }
+  };
 
+  template <typename Base>
+  class CutLogging : public Base {
+  protected:
+    std::shared_ptr<spdlog::logger> _cut_logger; //!
+  public:
+    template <class... Args>
+    CutLogging(Args&&... args) : Base(std::forward<Args>(args)...) {
+      _cut_logger = spdlog::get("cuts");
+      if(!_cut_logger) {
+        _cut_logger = spdlog::stdout_color_mt("cuts");
+      }
+      _cut_logger->set_pattern("[%t] [%n] %^[%l]%$ %v");
+    }
   };
 
 

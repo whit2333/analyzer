@@ -182,7 +182,7 @@ Bool_t THaOdata::Resize(Int_t i)
 
 //_____________________________________________________________________________
 THaOutput::THaOutput()
-  : fNvar(0), fVar(0), fEpicsVar(0), fTree(0), fEpicsTree(0), fInit(false),
+  : podd2::ParameterLogging<TObject>() , fNvar(0), fVar(0), fEpicsVar(0), fTree(0), fEpicsTree(0), fInit(false),
     fExtra(0), fEpicsHandler(0),
     nx(0), ny(0), iscut(0), xlo(0), xhi(0), ylo(0), yhi(0),
     fOpenEpics(false), fFirstEpics(false), fIsScalar(false)
@@ -646,7 +646,8 @@ Int_t THaOutput::LoadFile( const char* filename )
   const char* const here = "THaOutput::LoadFile";
 
   if( !filename || !*filename || strspn(filename," ") == strlen(filename) ) {
-    ::Error( here, "invalid file name, no output definition loaded" );
+    //::Error( here, "invalid file name, no output definition loaded" );
+    _param_logger->error( "{} invalid file name, no output definition loaded",here );
     return -2;
   }
   string loadfile(filename);
@@ -1028,29 +1029,29 @@ void THaOutput::Print() const
   if( fgVerbose > 0 ) {
     if( fVarnames.size() == 0 && fFormulas.size() == 0 &&
 	fCuts.size() == 0 && fHistos.size() == 0 ) {
-      ::Warning("THaOutput", "no output defined");
+      _param_logger->warn("THaOutput - no output defined");
     } else {
-      cout << endl << "THaOutput definitions: " << endl;
+      _param_logger->info("THaOutput definitions: ");
       if( !fVarnames.empty() ) {
-	cout << "=== Number of variables "<<fVarnames.size()<<endl;
+	_param_logger->info("=== Number of variables {}",fVarnames.size());
 	if( fgVerbose > 1 ) {
-	  cout << endl;
+	  //cout << endl;
 	  
 	  UInt_t i = 0;
 	  for (Iterc_s_t ivar = fVarnames.begin(); ivar != fVarnames.end(); 
 	       i++, ivar++ ) {
-	    cout << "Variable # "<<i<<" =  "<<(*ivar)<<endl;
+	    _param_logger->debug( "Variable # {} =  {}", i,(*ivar));
 	  }
 	}
       }
       if( !fFormulas.empty() ) {
-	cout << "=== Number of formulas "<<fFormulas.size()<<endl;
+	_param_logger->info("=== Number of formulas {}",fFormulas.size());
 	if( fgVerbose > 1 ) {
-	  cout << endl;
+	  //cout << endl;
 	  UInt_t i = 0;
 	  for (Iterc_f_t iform = fFormulas.begin(); 
 	       iform != fFormulas.end(); i++, iform++ ) {
-	    cout << "Formula # "<<i<<endl;
+	    _param_logger->debug("Formula # {}",i);
 	    if( fgVerbose>2 )
 	      (*iform)->LongPrint();
 	    else
@@ -1059,13 +1060,13 @@ void THaOutput::Print() const
 	}
       }
       if( !fCuts.empty() ) {
-	cout << "=== Number of cuts "<<fCuts.size()<<endl;
+	_param_logger->info("=== Number of cuts {}",fCuts.size());
 	if( fgVerbose > 1 ) {
 	  cout << endl;
 	  UInt_t i = 0;
 	  for (Iterc_f_t icut = fCuts.begin(); icut != fCuts.end();
 	       i++, icut++ ) {
-	    cout << "Cut # "<<i<<endl;
+	    _param_logger->debug( "Cut # {}",i);
 	    if( fgVerbose>2 )
 	      (*icut)->LongPrint();
 	    else
@@ -1074,18 +1075,18 @@ void THaOutput::Print() const
 	}
       }
       if( !fHistos.empty() ) {
-	cout << "=== Number of histograms "<<fHistos.size()<<endl;
+	_param_logger->info("=== Number of histograms {}",fHistos.size());
 	if( fgVerbose > 1 ) {
 	  cout << endl;
 	  UInt_t i = 0;
 	  for (Iterc_h_t ihist = fHistos.begin(); ihist != fHistos.end(); 
 	       i++, ihist++) {
-	    cout << "Histogram # "<<i<<endl;
+	    _param_logger->debug( "Histogram # ",i);
 	    (*ihist)->Print();
 	  }
 	}
       }
-      cout << endl;
+      //cout << endl;
     }
   }
 }

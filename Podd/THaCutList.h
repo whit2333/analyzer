@@ -11,6 +11,8 @@
 #include "THaCut.h"
 #include "THaNamedList.h"
 
+#include "podd2/Logger.h"
+
 class TList;
 class THaVarList;
 class THaPrintOption;
@@ -29,7 +31,10 @@ public:
   ClassDef(THaHashList,1) //A THashList list with a PrintOpt method
 };
   
-class THaCutList {
+/** Cut list.
+ *
+ */
+class THaCutList : public podd2::CutLogging<TObject> {
 
 public:
   static const char* const kDefaultBlockName;

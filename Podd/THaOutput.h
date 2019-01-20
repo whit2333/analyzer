@@ -15,6 +15,9 @@
 
 #include "TH1F.h"
 #include "TH2F.h"
+
+#include "podd2/Logger.h"
+
 class THaVar;
 class THaVform;
 class THaVhist;
@@ -67,7 +70,7 @@ private:
 class THaEpicsKey;
 class THaEpicsEvtHandler;
 
-class THaOutput {
+class THaOutput : public podd2::ParameterLogging<TObject> {
   
 public:
 
