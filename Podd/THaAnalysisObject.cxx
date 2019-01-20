@@ -682,12 +682,15 @@ FILE* THaAnalysisObject::OpenFile( const char *name, const TDatime& date,
   // Open database file and return a pointer to the C-style file descriptor.
 
   // Ensure input is sane
-  if( !name || !*name )
+  if( !name || !*name ){
     return NULL;
-  if( !here )
-    here="";
-  if( !filemode )
-    filemode="r";
+  }
+  if (!here) {
+    here = "";
+  }
+  if (!filemode) {
+    filemode = "r";
+  }
 
   // Get list of database file candidates and try to open them in turn
   FILE* fi = NULL;
@@ -695,18 +698,21 @@ FILE* THaAnalysisObject::OpenFile( const char *name, const TDatime& date,
   if( !fnames.empty() ) {
     vsiter_t it = fnames.begin();
     do {
-      if( debug_flag>1 ){
-	cout << "Info in <" << here << ">: Opening database file " << *it;
-      }
-	cout << "Info in <" << here << ">: Opening database file " << *it;
+      //if( debug_flag>2 ){
+      //  cout << "Info in <" << here << ">: Opening database file " << *it;
+      //}
+      auto l = spdlog::get("config");
       // Open the database file
       fi = fopen( (*it).c_str(), filemode);
-      
-      if( debug_flag>1 ) 
-	if( !fi ) cout << " ... failed" << endl;
-	else      cout << " ... ok" << endl;
-      else if( debug_flag>0 && fi )
-	cout << "<" << here << ">: Opened database file " << *it << endl;
+
+      l->debug("<{}> - {}: Opening database file {} ... {}", here, name, *it,
+               (!fi ? "... failed" : "... ok"));
+      //if( debug_flag>1 ) {
+      //if( !fi ) {cout << " ... failed" << endl;}
+      //else     { cout << " ... ok" << endl;}
+      //}else if( debug_flag>0 && fi ) {
+      //cout << "<" << here << ">: Opened database file " << *it << endl;
+      //}
       // continue until we succeed
     } while ( !fi && ++it != fnames.end() );
   }
@@ -731,7 +737,8 @@ FILE* THaAnalysisObject::OpenRunDBFile( const TDatime& date )
 { 
   // Default method for opening run database file
 
-  return OpenFile("run", date, ClassNameHere("OpenFile()"), "r", fDebug);
+  return nullptr;
+  //return OpenFile("run", date, ClassNameHere("OpenFile()"), "r", fDebug);
 }
 
 //_____________________________________________________________________________
