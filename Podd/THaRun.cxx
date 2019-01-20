@@ -159,7 +159,7 @@ Int_t THaRun::Open()
       st = CODA_ERROR;
       Close();
     }
-    cout << "in THaRun::Open:  coda version "<<fDataVersion<<endl;
+    _logger->debug("THaRun::Open:  coda version {} ",fDataVersion);
     if( st == CODA_OK )
       fOpened = kTRUE;
   }
@@ -170,9 +170,9 @@ Int_t THaRun::Open()
 void THaRun::Print( Option_t* opt ) const
 {
   THaCodaRun::Print( opt );
-  cout << "Max # scan:     " << fMaxScan  << endl;
-  cout << "CODA file:      " << fFilename << endl;
-  cout << "Segment number: " << fSegment  << endl;
+  _logger->info("Max # scan    : {} ", fMaxScan);
+  _logger->info("CODA  file    : {} ", fFilename.Data());
+  _logger->info("Segment number: {} ", fSegment);
 }
 
 //_____________________________________________________________________________

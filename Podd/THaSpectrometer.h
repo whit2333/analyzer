@@ -20,7 +20,9 @@ class THaTrack;
 class TList;
 class THaCut;
 
-class THaSpectrometer : public THaApparatus, public THaTrackingModule,
+#include "podd2/Logger.h"
+
+class THaSpectrometer : public podd2::SpectrometerLogging<THaApparatus>, public THaTrackingModule,
 			public THaVertexModule {
   
 public:

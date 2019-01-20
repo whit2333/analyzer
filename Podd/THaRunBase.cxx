@@ -26,7 +26,7 @@ static const char* DEFRUNPARAM = "THaRunParameters";
 
 //_____________________________________________________________________________
 THaRunBase::THaRunBase( const char* description ) :
-  TNamed(NOTINIT, description ),
+  podd2::RunLogging<TNamed>(NOTINIT, description ),
   fNumber(-1), fType(0), fDate(UNDEFDATE,0), fNumAnalyzed(0),
   fDBRead(kFALSE), fIsInit(kFALSE), fOpened(kFALSE), fAssumeDate(kFALSE),
   fDataSet(0), fDataRead(0), fDataRequired(kDate), fParam(0),
@@ -39,7 +39,7 @@ THaRunBase::THaRunBase( const char* description ) :
 
 //_____________________________________________________________________________
 THaRunBase::THaRunBase( const THaRunBase& rhs ) :
-  TNamed( rhs ), fNumber(rhs.fNumber), fType(rhs.fType),
+  podd2::RunLogging<TNamed>( rhs ), fNumber(rhs.fNumber), fType(rhs.fType),
   fDate(rhs.fDate), fNumAnalyzed(rhs.fNumAnalyzed), fDBRead(rhs.fDBRead),
   fIsInit(rhs.fIsInit), fOpened(kFALSE), fAssumeDate(rhs.fAssumeDate),
   fDataSet(rhs.fDataSet), fDataRead(rhs.fDataRead),
@@ -365,33 +365,26 @@ Bool_t THaRunBase::IsOpen() const
 void THaRunBase::Print( Option_t* opt ) const
 {
   // Print definition of run
-  TNamed::Print( opt );
-  cout << "Run number: " << fNumber << endl;
-  cout << "Run date:   " << fDate.AsString() << endl;
-  cout << "Requested event range: " << fEvtRange[0] << "-"
-       << fEvtRange[1] << endl;
+  //TNamed::Print( opt );
+
+  _logger->info("Run number: {}", fNumber);
+  _logger->info("Run date:   {}", fDate.AsString() );
+  _logger->info("Requested event range: {}-{}", fEvtRange[0], fEvtRange[1] );
 
   TString sopt(opt);
   if( sopt == "STARTINFO" )
     return;
 
-  cout << "Analyzed events:       " << fNumAnalyzed << endl;
-  cout << "Assume Date:           " << fAssumeDate << endl;
-  cout << "Database read:         " << fDBRead << endl;
-  cout << "Initialized  :         " << fIsInit << endl;
-  cout << "Opened       :         " << fOpened << endl;
-  cout << "Date set/read/req:     "
-       << HasInfo(kDate) << " " << HasInfoRead(kDate) << " "
-       << (Bool_t)((kDate & fDataRequired) == kDate) << endl;
-  cout << "Run num set/read/req:  "
-       << HasInfo(kRunNumber) << " " << HasInfoRead(kRunNumber) << " "
-       << (Bool_t)((kRunNumber & fDataRequired) == kRunNumber) << endl;
-  cout << "Run type set/read/req: "
-       << HasInfo(kRunType) << " " << HasInfoRead(kRunType) << " "
-       << (Bool_t)((kRunType & fDataRequired) == kRunType) << endl;
-  cout << "Prescales set/rd/req:  "
-       << HasInfo(kPrescales) << " " << HasInfoRead(kPrescales) << " "
-       << (Bool_t)((kPrescales & fDataRequired) == kPrescales) << endl;
+  _logger->info( "Analyzed events:      {} ", fNumAnalyzed );
+  _logger->info( "Assume Date:          {} ", fAssumeDate  );
+  _logger->info( "Database read:        {} ", fDBRead      );
+  _logger->info( "Initialized  :        {} ", fIsInit      );
+  _logger->info( "Opened       :        {} ", fOpened      );
+  _logger->info("Date set/read/req:     {} {} {}", HasInfo(kDate), HasInfoRead(kDate),
+                (Bool_t)((kDate & fDataRequired) == kDate));
+  _logger->info("Run num set/read/req:  {} {} {}", HasInfo(kRunNumber), HasInfoRead(kRunNumber),(Bool_t)((kRunNumber & fDataRequired) == kRunNumber) );
+  _logger->info("Run type set/read/req: {} {} {}", HasInfo(kRunType) , HasInfoRead(kRunType) ,(Bool_t)((kRunType & fDataRequired) == kRunType) );
+  _logger->info("Prescales set/rd/req:  {} {} {}", HasInfo(kPrescales) , HasInfoRead(kPrescales) ,(Bool_t)((kPrescales & fDataRequired) == kPrescales) );
 
   if( fParam )
     fParam->Print(opt);

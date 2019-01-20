@@ -540,28 +540,30 @@ Int_t THaAnalyzer::DoInit( THaRunBase* run )
     Close();
 #endif
   }
-  if( !fFile ) {
-    if( fOutFileName.IsNull() ) {
-      Error( here, "Must specify an output file. Set it with SetOutFile()." );
+  if (!fFile) {
+    if (fOutFileName.IsNull()) {
+      _logger->error("{} Must specify an output file. Set it with SetOutFile().",here);
       return -12;
     }
     // File exists?
-    if( gSystem->AccessPathName(fOutFileName) == kFALSE ) { //sic
-      if( !fOverwrite ) {
-	Error( here, "Output file %s already exists. Choose a different "
-	       "file name or enable overwriting with EnableOverwrite().",
-	       fOutFileName.Data() );
-	return -13;
+    if (gSystem->AccessPathName(fOutFileName) == kFALSE) { // sic
+      if (!fOverwrite) {
+        _logger->error("{} Output file {} already exists. Choose a different \n"
+                       "file name or enable overwriting with EnableOverwrite().",
+                       here, fOutFileName.Data());
+        return -13;
       }
-      cout << "Overwriting existing";
-    } else
-      cout << "Creating new";
-    cout << " output file: " << fOutFileName << endl;
-    fFile = new TFile( fOutFileName.Data(), "RECREATE" );
+      _logger->info("Overwriting existing output file: {} ",fOutFileName.Data());
+    } else {
+      _logger->info("Creating new output file: {} ",fOutFileName.Data());
+    }
+    //cout << " output file: " << fOutFileName << endl;
+    fFile = new TFile(fOutFileName.Data(), "RECREATE");
   }
-  if( !fFile || fFile->IsZombie() ) {
-    Error( here, "failed to create output file %s. Check file/directory "
-	   "permissions.", fOutFileName.Data() );
+  if (!fFile || fFile->IsZombie()) {
+    _logger->error("{} failed to create output file {}. Check file/directory "
+                   "permissions.",
+                   here, fOutFileName.Data());
     Close();
     return -10;
   }
@@ -581,8 +583,9 @@ Int_t THaAnalyzer::DoInit( THaRunBase* run )
   if( fEvent != fPrevEvent ) {
     if( fAnalysisStarted ) {
       // Don't allow a new event in the middle of the analysis!
-      Error( here, "Cannot change event structure for continuing analysis. "
-	     "Close() this analysis, then Init() again." );
+      _logger->error("{} Cannot change event structure for continuing analysis. "
+                     "Close() this analysis, then Init() again.",
+                     here);
       return 254;
     } else if( fIsInit ) {
       // If previously initialized, we might have to clean up first.
@@ -624,8 +627,9 @@ Int_t THaAnalyzer::DoInit( THaRunBase* run )
     if( gHaDecoder )
       fEvData = static_cast<THaEvData*>(gHaDecoder->New());
     if( !fEvData ) {
-      Error( here, "Failed to create decoder object. "
-	     "Something is very wrong..." );
+      _logger->error("{} Failed to create decoder object. "
+                     "Something is very wrong...",
+                     here);
       return 241;
     }
     new_decoder = true;
@@ -634,8 +638,7 @@ Int_t THaAnalyzer::DoInit( THaRunBase* run )
   // If we've been told to use a specific CODA version, tell the run
   // object about it. (FIXME: This may not work with non-CODA runs.)
   if( fWantCodaVers > 0 && run->SetDataVersion(fWantCodaVers) < 0 ) {
-    Error( here, "Failed to set CODA version %d for run. Call expert.",
-        fWantCodaVers );
+    _logger->error("{} Failed to set CODA version {} for run. Call expert.", here, fWantCodaVers);
     return 242;
   }
   // Make sure the run is initialized.
@@ -750,7 +753,7 @@ Int_t THaAnalyzer::DoInit( THaRunBase* run )
     fFile->cd();
 
     if( (retval = fOutput->Init( fOdefFileName )) < 0 ) {
-      Error( here, "Error initializing THaOutput." );
+      _logger->error( "{} Error initializing THaOutput.", here );
     } else if( retval == 1 )
       retval = 0;  // Reinitialization ok, not an error
     else {
@@ -773,7 +776,7 @@ Int_t THaAnalyzer::DoInit( THaRunBase* run )
 
   if ( retval == 0 ) {
     if ( ! fOutput ) {
-      Error( here, "Error initializing THaOutput for objects(again!)" );
+      _logger->error("{} Error initializing THaOutput for objects(again!)", here );
       retval = -5;
     } else {
       // call the apparatuses again, to permit them to write more

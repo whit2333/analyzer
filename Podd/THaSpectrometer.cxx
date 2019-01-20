@@ -36,7 +36,7 @@ using namespace std;
 
 //_____________________________________________________________________________
 THaSpectrometer::THaSpectrometer( const char* name, const char* desc ) : 
-  THaApparatus( name,desc ), fGoldenTrack(NULL), 
+  podd2::SpectrometerLogging<THaApparatus>( name,desc ), fGoldenTrack(NULL), 
   fPID(kFALSE), fThetaGeo(0.0), fPhiGeo(0.0), fPcentral(1.0), fCollDist(0.0),
   fStagesDone(0), fListInit(kFALSE)
 {

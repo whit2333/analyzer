@@ -59,7 +59,7 @@ static TVirtualMutex* gHereMutex = 0;
 //_____________________________________________________________________________
 THaAnalysisObject::THaAnalysisObject( const char* name, 
 				      const char* description ) :
-  TNamed(name,description), fPrefix(NULL), fStatus(kNotinit), 
+  podd2::ParameterLogging<TNamed>(name,description), fPrefix(NULL), fStatus(kNotinit), 
   fDebug(0), fIsInit(false), fIsSetup(false), fProperties(0),
   fOKOut(false), fInitDate(19950101,0), fNEventsWithWarnings(0),
   fExtra(0)
@@ -72,7 +72,7 @@ THaAnalysisObject::THaAnalysisObject( const char* name,
 
 //_____________________________________________________________________________
 THaAnalysisObject::THaAnalysisObject()
-  : fPrefix(NULL), fStatus(kNotinit), fDebug(0), fIsInit(false),
+  : podd2::ParameterLogging<TNamed>(), fPrefix(NULL), fStatus(kNotinit), fDebug(0), fIsInit(false),
     fIsSetup(false), fProperties(), fOKOut(false), fNEventsWithWarnings(0),
     fExtra(0)
 {
@@ -695,7 +695,9 @@ FILE* THaAnalysisObject::OpenFile( const char *name, const TDatime& date,
   if( !fnames.empty() ) {
     vsiter_t it = fnames.begin();
     do {
-      if( debug_flag>1 )
+      if( debug_flag>1 ){
+	cout << "Info in <" << here << ">: Opening database file " << *it;
+      }
 	cout << "Info in <" << here << ">: Opening database file " << *it;
       // Open the database file
       fi = fopen( (*it).c_str(), filemode);

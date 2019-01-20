@@ -14,7 +14,9 @@
 class THaRunParameters;
 class THaEvData;
 
-class THaRunBase : public TNamed {
+#include "podd2/Logger.h"
+
+class THaRunBase : public podd2::RunLogging<TNamed> {
   
 public:
   THaRunBase( const char* description="" );

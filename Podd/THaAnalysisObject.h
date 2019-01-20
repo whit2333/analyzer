@@ -25,9 +25,14 @@ class THaRunBase;
 class THaOutput;
 class TObjArray;
 
+#include "podd2/Logger.h"
+
 const char* Here( const char* here, const char* prefix = NULL );
 
-class THaAnalysisObject : public TNamed {
+/**  THaAnalysisObject
+ *
+ */
+class THaAnalysisObject : public podd2::ParameterLogging<TNamed> {
   
 public:
   enum EStatus { kOK, kNotinit, kInitError, kFileError };

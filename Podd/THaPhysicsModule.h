@@ -8,8 +8,9 @@
 //////////////////////////////////////////////////////////////////////////
 
 #include "THaAnalysisObject.h"
+#include "podd2/Logger.h"
 
-class THaPhysicsModule : public THaAnalysisObject {
+class THaPhysicsModule : public podd2::AnalysisLogging<THaAnalysisObject> {
   
 public:
   virtual ~THaPhysicsModule();

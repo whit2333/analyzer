@@ -105,11 +105,11 @@ Int_t THaCodaRun::SetCodaVersion( Int_t vers )
   const char* const here = "THaCodaRun::SetCodaVersion";
 
   if (vers != 2 && vers != 3) {
-    Warning( here, "Illegal CODA version = %d. Must be 2 or 3.", vers );
+    _logger->warn("THaCodaRun::SetCodaVersion : Illegal CODA version = {}. Must be 2 or 3.", vers );
     return -1;
   }
   if( IsOpen() ) {
-    Error( here, "CODA data source is open, cannot set version" );
+    _logger->error("THaCodaRun::SetCodaVersion : CODA data source is open, cannot set version");
     return -1;
   }
   return (fDataVersion = vers);
@@ -151,5 +151,3 @@ Int_t THaCodaRun::ReadEvent()
   return ReturnCode( fCodaData->codaRead() );
 }
 
-//_____________________________________________________________________________
-ClassImp(THaCodaRun)

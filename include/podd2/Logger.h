@@ -10,7 +10,7 @@ namespace podd2 {
   template <typename Base>
   class RunLogging : public Base {
   protected:
-    std::shared_ptr<spdlog::logger> _logger;
+    std::shared_ptr<spdlog::logger> _logger; //!
   public:
     template <class... Args>
     RunLogging(Args&&... args) : Base(std::forward<Args>(args)...) {
@@ -20,12 +20,12 @@ namespace podd2 {
       }
       _logger->set_pattern("[%t] [%n] %^[%l]%$ %v");
     }
-
   };
+
   template <typename Base>
   class ConfigLogging : public Base {
   protected:
-    std::shared_ptr<spdlog::logger> _logger;
+    std::shared_ptr<spdlog::logger> _logger; //!
   public:
     template <class... Args>
     ConfigLogging(Args&&... args) : Base(std::forward<Args>(args)...) {
@@ -35,13 +35,42 @@ namespace podd2 {
       }
       _logger->set_pattern("[%t] [%n] %^[%l]%$ %v");
     }
+  };
 
+  template <typename Base>
+  class ParameterLogging : public Base {
+  protected:
+    std::shared_ptr<spdlog::logger> _param_logger; //!
+  public:
+    template <class... Args>
+    ParameterLogging(Args&&... args) : Base(std::forward<Args>(args)...) {
+      _param_logger = spdlog::get("param");
+      if(!_param_logger) {
+        _param_logger = spdlog::stdout_color_mt("param");
+      }
+      _param_logger->set_pattern("[%t] [%n] %^[%l]%$ %v");
+    }
+  };
+
+  template <typename Base>
+  class AnalysisLogging : public Base {
+  protected:
+    std::shared_ptr<spdlog::logger> _ana_logger; //!
+  public:
+    template <class... Args>
+    AnalysisLogging(Args&&... args) : Base(std::forward<Args>(args)...) {
+      _ana_logger = spdlog::get("ana");
+      if(!_ana_logger) {
+        _ana_logger = spdlog::stdout_color_mt("ana");
+      }
+      _ana_logger->set_pattern("[%t] [%n] %^[%l]%$ %v");
+    }
   };
 
   template <typename Base>
   class HitLogging : public Base {
   protected:
-    std::shared_ptr<spdlog::logger> _hit_logger;
+    std::shared_ptr<spdlog::logger> _hit_logger; //!
   public:
     template <class... Args>
     HitLogging(Args&&... args) : Base(std::forward<Args>(args)...) {
@@ -49,16 +78,16 @@ namespace podd2 {
       if(!_hit_logger) {
         _hit_logger = spdlog::stdout_color_mt("hits");
       }
+      _hit_logger->set_pattern("[%t] [%n] %^[%l]%$ %v");
     }
 
   };
 
 
-
   template <typename Base>
   class DetectorLogging : public Base {
   protected:
-    std::shared_ptr<spdlog::logger> _det_logger;
+    std::shared_ptr<spdlog::logger> _det_logger;//!
   public:
     template <class... Args>
     DetectorLogging(Args&&... args) : Base(std::forward<Args>(args)...) {
@@ -66,9 +95,26 @@ namespace podd2 {
       if(!_det_logger) {
         _det_logger = spdlog::stdout_color_mt("det");
       }
+      _det_logger->set_pattern("[%t] [%n] %^[%l]%$ %v");
     }
-
   };
+
+  template <typename Base>
+  class SpectrometerLogging : public Base {
+  protected:
+    std::shared_ptr<spdlog::logger> _spec_logger; //!
+  public:
+    template <class... Args>
+    SpectrometerLogging(Args&&... args) : Base(std::forward<Args>(args)...) {
+      _spec_logger = spdlog::get("spec");
+      if(!_spec_logger) {
+        _spec_logger = spdlog::stdout_color_mt("spec");
+      }
+      _spec_logger->set_pattern("[%t] [%n] %^[%l]%$ %v");
+    }
+  };
+
+
 }
 
 
