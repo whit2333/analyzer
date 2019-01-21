@@ -17,6 +17,9 @@
 #pragma link C++ nestedtypedef;
 #pragma link C++ namespace Podd;
 
+#pragma link C++ namespace podd2;
+#pragma link C++ class podd2::RunLogging<TNamed>+;
+
 #pragma link C++ class THaVar+;
 #pragma link C++ class THaVarList+;
 #pragma link C++ class THaNamedList+;
@@ -113,7 +116,6 @@
 #pragma link C++ class Podd::SimDecoder+;
 #pragma link C++ class Podd::CodaRawDecoder+;
 
-#pragma link C++ class podd2::RunLogging<TNamed>+;
 
 #ifdef ONLINE_ET
 #pragma link C++ class THaOnlRun+;

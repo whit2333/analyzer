@@ -22,7 +22,7 @@ namespace podd2 {
       sinks[0]->set_pattern("[%t] [%n] %^[%l]%$ %v");
       // ------------------------------------
       sinks.push_back(
-          std::make_shared<spdlog::sinks::basic_file_sink_mt>(file, true));
+          std::make_shared<spdlog::sinks::basic_file_sink_mt>(file));
       sinks[1]->set_level(spdlog::level::trace);
       sinks[1]->set_pattern("[%t] [%n] %^[%l]%$ %v");
       // ------------------------------------
