@@ -182,7 +182,7 @@ Bool_t THaOdata::Resize(Int_t i)
 
 //_____________________________________________________________________________
 THaOutput::THaOutput()
-  : podd2::ParameterLogging<TObject>() , fNvar(0), fVar(0), fEpicsVar(0), fTree(0), fEpicsTree(0), fInit(false),
+  : podd2::ParameterLogging<podd2::EmptyBase>() , fNvar(0), fVar(0), fEpicsVar(0), fTree(0), fEpicsTree(0), fInit(false),
     fExtra(0), fEpicsHandler(0),
     nx(0), ny(0), iscut(0), xlo(0), xhi(0), ylo(0), yhi(0),
     fOpenEpics(false), fFirstEpics(false), fIsScalar(false)

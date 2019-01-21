@@ -34,7 +34,7 @@ public:
 /** Cut list.
  *
  */
-class THaCutList : public podd2::CutLogging<TObject> {
+class THaCutList : public podd2::CutLogging<podd2::EmptyBase> {
 
 public:
   static const char* const kDefaultBlockName;

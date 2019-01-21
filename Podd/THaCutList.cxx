@@ -53,7 +53,7 @@ void THaHashList::PrintOpt( Option_t* opt ) const
 
 //______________________________________________________________________________
 THaCutList::THaCutList()
-  : podd2::CutLogging<TObject>(),fCuts(new THaHashList()), fBlocks(new THaHashList()),
+  : podd2::CutLogging<podd2::EmptyBase>(),fCuts(new THaHashList()), fBlocks(new THaHashList()),
     fVarList(0)
 {
   // Default constructor. No variable list is defined. Either define it
@@ -64,7 +64,7 @@ THaCutList::THaCutList()
 
 //______________________________________________________________________________
 THaCutList::THaCutList( const THaCutList& rhs )
-  : podd2::CutLogging<TObject>(),fCuts(new THaHashList(rhs.fCuts)), fBlocks(new THaHashList(rhs.fBlocks)),
+  : podd2::CutLogging<podd2::EmptyBase>(),fCuts(new THaHashList(rhs.fCuts)), fBlocks(new THaHashList(rhs.fBlocks)),
     fVarList(rhs.fVarList)
 {
   // Copy constructor
@@ -73,7 +73,7 @@ THaCutList::THaCutList( const THaCutList& rhs )
 
 //______________________________________________________________________________
 THaCutList::THaCutList( const THaVarList* lst ) 
-  : podd2::CutLogging<TObject>(), fCuts(new THaHashList()), fBlocks(new THaHashList()),
+  : podd2::CutLogging<podd2::EmptyBase>(), fCuts(new THaHashList()), fBlocks(new THaHashList()),
     fVarList(lst)
 {
   // Constructor from variable list. Create the main lists and set the variable

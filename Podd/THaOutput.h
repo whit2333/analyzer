@@ -70,7 +70,7 @@ private:
 class THaEpicsKey;
 class THaEpicsEvtHandler;
 
-class THaOutput : public podd2::ParameterLogging<TObject> {
+class THaOutput : public podd2::ParameterLogging<podd2::EmptyBase> {
   
 public:
 

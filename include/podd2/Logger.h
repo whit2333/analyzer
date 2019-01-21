@@ -11,6 +11,8 @@ namespace podd2 {
     std::shared_ptr<spdlog::logger> make_logger(std::string name, std::string file);
   }
 
+  struct EmptyBase {};
+
   template <typename Base>
   class RunLogging : public Base {
   protected:
