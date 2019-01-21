@@ -16,6 +16,9 @@ include(PoddCMakeEnv)
 include(GNUInstallDirs)
 set(INSTALL_CONFIGDIR ${CMAKE_INSTALL_LIBDIR}/${MAIN_PROJECT_NAME_LC})
 
+# OS specific, but standard stuff
+include(cmake/os.cmake)
+
 #----------------------------------------------------------------------------
 # Find ROOT (using our custom FindROOT.cmake)
 set(minimum_root_version 5.10)

@@ -60,7 +60,11 @@ list(APPEND allheaders "${CMAKE_CURRENT_BINARY_DIR}/ha_compiledata.h")
 
 #----------------------------------------------------------------------------
 # libPodd
-add_library(${LIBNAME} SHARED ${src} ${allheaders} ${LIBNAME}Dict.cxx)
+add_library(${LIBNAME} SHARED 
+  ${src} 
+  src/Logger.cxx
+  ${allheaders} # headers are probably not needed here 
+  ${LIBNAME}Dict.cxx)
 add_library(${PROJECT_NAME}::${LIBNAME} ALIAS ${LIBNAME})
 
 target_include_directories(${LIBNAME}
@@ -86,6 +90,7 @@ if(WITH_DEBUG)
 endif()
 
 target_link_libraries(${LIBNAME}
+  PUBLIC ${CXX_FILESYSTEM_LIB}
   PUBLIC
     ${PROJECT_NAME}::Decode
     ROOT::Core
