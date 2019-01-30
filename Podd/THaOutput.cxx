@@ -656,6 +656,7 @@ Int_t THaOutput::LoadFile( const char* filename )
     ErrFile(-1, loadfile);
     return -1;
   }
+  _param_logger->info("Loading ODef file {}", filename);
   string::size_type pos;
   vector<string> strvect;
   string sline;
@@ -666,23 +667,26 @@ Int_t THaOutput::LoadFile( const char* filename )
 	sline.length() > kIncTag.length() ) {
       string incfilename;
       if( GetIncludeFileName(sline,incfilename) != 0 ) {
-	ostringstream ostr;
-	ostr << "Error in #include specification: " << sline;
-	::Error( here, "%s", ostr.str().c_str() );
-	return -3;
+	//ostringstream ostr;
+	//ostr << "Error in #include specification: " << sline;
+	//::Error( here, "%s", ostr.str().c_str() );
+        _param_logger->error("{} : error in #include specification: {}", here, sline);
+        return -3;
       }
       if( CheckIncludeFilePath(incfilename) != 0 ) {
-	ostringstream ostr;
-	ostr << "Error opening include file: " << sline;
-	::Error( here, "%s", ostr.str().c_str() );
-	return -3;
+	//ostringstream ostr;
+	//ostr << "Error opening include file: " << sline;
+	//::Error( here, "%s", ostr.str().c_str() );
+        _param_logger->error("{} : Error opening include file: {}", here, sline);
+        return -3;
       }
       if( incfilename == filename ) {
 	// File including itself?
 	// FIXME: does not catch including the same file via full pathname or similar
-	ostringstream ostr;
-	ostr << "File cannot include itself: " << sline;
-	::Error( here, "%s", ostr.str().c_str() );
+	//ostringstream ostr;
+	//ostr << "File cannot include itself: " << sline;
+	//::Error( here, "%s", ostr.str().c_str() );
+        _param_logger->error("{} : File cannot include itself: {}", here, sline);
 	return -3;
       }
       Int_t ret = LoadFile( incfilename.c_str() );
@@ -762,9 +766,13 @@ Int_t THaOutput::LoadFile( const char* filename )
       case kBlock:
 	// Do not strip brackets for block regexps: use strvect[1] not sname
 	if( BuildBlock(strvect[1]) == 0 ) {
-	  cout << "\nTHaOutput::Init: WARNING: Block ";
-	  cout << strvect[1] << " does not match any variables. " << endl;
-	  cout << "There is probably a typo error... "<<endl;
+
+          _param_logger->warn("THaOutput::Init: WARNING: Block");
+          _param_logger->warn("{} does not match any variables. ",strvect[1] );
+          _param_logger->warn("There is probably a typo error... ");
+	  //cout << "\nTHaOutput::Init: WARNING: Block ";
+	  //cout << strvect[1] << " does not match any variables. " << endl;
+	  //cout << "There is probably a typo error... "<<endl;
 	}
 	break;
       case kBegin:
