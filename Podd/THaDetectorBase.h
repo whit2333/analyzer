@@ -10,9 +10,11 @@
 #include "THaAnalysisObject.h"
 #include "TVector3.h"
 
+#include "podd2/Logger.h"
+
 class THaDetMap;
 
-class THaDetectorBase : public THaAnalysisObject {
+class THaDetectorBase : public podd2::DetectorLogging<THaAnalysisObject> {
 
 public:
   virtual ~THaDetectorBase();

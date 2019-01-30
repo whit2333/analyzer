@@ -18,7 +18,6 @@
 #pragma link C++ namespace Podd;
 
 #pragma link C++ namespace podd2;
-#pragma link C++ class podd2::RunLogging<TNamed>+;
 
 #pragma link C++ class THaVar+;
 #pragma link C++ class THaVarList+;

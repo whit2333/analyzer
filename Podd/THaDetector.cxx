@@ -18,7 +18,7 @@ using namespace std;
 //_____________________________________________________________________________
 THaDetector::THaDetector( const char* name, const char* description,
 			  THaApparatus* apparatus )
-  : podd2::DetectorLogging<THaDetectorBase>(name,description), fApparatus(apparatus)
+  : THaDetectorBase(name,description), fApparatus(apparatus)
 {
   // Constructor
 
@@ -31,7 +31,7 @@ THaDetector::THaDetector( const char* name, const char* description,
 }
 
 //_____________________________________________________________________________
-THaDetector::THaDetector() : podd2::DetectorLogging<THaDetectorBase>(), fApparatus(0)
+THaDetector::THaDetector() : THaDetectorBase(), fApparatus(0)
 {
   // for ROOT I/O only
 }

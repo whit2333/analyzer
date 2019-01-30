@@ -247,7 +247,7 @@ Int_t THaOutput::Init( const char* filename )
   if( fgDoBench ) fgBench.Begin("Init");
 
   fTree = new TTree("T","Hall A Analyzer Output DST");
-  fTree->SetAutoSave(200000000);
+  fTree->SetAutoSave(5000);
   fOpenEpics  = kFALSE;
   fFirstEpics = kTRUE; 
 

@@ -17,9 +17,8 @@
 class THaApparatus;
 class THaRunBase;
 
-#include "podd2/Logger.h"
 
-class THaDetector : public podd2::DetectorLogging<THaDetectorBase> {
+class THaDetector : public THaDetectorBase {
 
 public:
   virtual ~THaDetector();

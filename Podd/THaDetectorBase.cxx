@@ -24,7 +24,7 @@ using std::vector;
 //_____________________________________________________________________________
 THaDetectorBase::THaDetectorBase( const char* name,
 				  const char* description ) :
-  THaAnalysisObject(name,description), fNelem(0),
+  podd2::DetectorLogging<THaAnalysisObject>(name,description), fNelem(0),
   fXax(1.0,0.0,0.0), fYax(0.0,1.0,0.0), fZax(0.0,0.0,1.0)
 {
   // Normal constructor. Creates an empty detector map.
@@ -34,7 +34,7 @@ THaDetectorBase::THaDetectorBase( const char* name,
 }
 
 //_____________________________________________________________________________
-THaDetectorBase::THaDetectorBase() : fDetMap(0), fNelem(0) {
+THaDetectorBase::THaDetectorBase() : podd2::DetectorLogging<THaAnalysisObject>(), fDetMap(0), fNelem(0) {
   // for ROOT I/O only
 }
 
