@@ -8,6 +8,7 @@
 //////////////////////////////////////////////////////////////////////////
 
 #include "TNamed.h"
+#include "TTree.h"
 #include "THaGlobals.h"
 #include "TDatime.h"
 #include "VarDef.h"
@@ -35,6 +36,8 @@ const char* Here( const char* here, const char* prefix = NULL );
 class THaAnalysisObject : public podd2::ParameterLogging<TNamed> {
   
 public:
+  THaOutput*      fOutput = nullptr; 
+
   enum EStatus { kOK, kNotinit, kInitError, kFileError };
   enum EType   { kVarDef, kRVarDef };
   enum EMode   { kDefine, kDelete };
@@ -67,6 +70,7 @@ public:
           EStatus      Status() const            { return fStatus; }
 
   virtual Int_t        InitOutput( THaOutput * );
+  virtual Int_t        ManualInitTree( TTree * t ) { return 0;}
           Bool_t       IsOKOut()                 { return fOKOut; }
   virtual void         Print( Option_t* opt="" ) const;
 
@@ -137,6 +141,7 @@ public:
 protected:
 
   enum EProperties { kNeedsRunDB = BIT(0), kConfigOverride = BIT(1) };
+
 
   // General status variables
   char*           fPrefix;    // Name prefix for global variables

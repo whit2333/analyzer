@@ -14,6 +14,7 @@
 //////////////////////////////////////////////////////////////////////////
 
 #include "THaAnalysisObject.h"
+#include "THaOutput.h"
 #include "THaVarList.h"
 #include "THaTextvars.h"
 #include "THaGlobals.h"
@@ -626,8 +627,9 @@ THaAnalysisObject::EStatus THaAnalysisObject::Init( const TDatime& date )
 }
 
 //_____________________________________________________________________________
-Int_t THaAnalysisObject::InitOutput( THaOutput* /* output */ )
+Int_t THaAnalysisObject::InitOutput( THaOutput*  output  )
 {
+  fOutput = output;
   // This method is called from THaAnalyzer::DoInit,
   // after THaOutput is initialized.
   // The TTree to work with can be retrieved like:

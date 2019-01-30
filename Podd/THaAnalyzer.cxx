@@ -823,12 +823,29 @@ Int_t THaAnalyzer::InitOutput( const TList* module_list,
       retval = -2;
       break;
     }
+
+    _logger->info("THaAnalyzer::InitOutput() calling InitOutput and ManualInitTree on {}, {} ",obj->GetName() ,  obj->GetTitle());
     theModule->InitOutput( fOutput );
     if( !theModule->IsOKOut() ) {
       Error( here, "Error initializing output for  %s (%s). "
           "Analyzer initialization failed.", obj->GetName(), obj->GetTitle() );
       retval = -1;
       break;
+    }
+
+    theModule->ManualInitTree( fOutput->GetTree() );
+    auto theApp = dynamic_cast<THaApparatus*>( theModule );
+    //TIter next_det( module_list->GetDetectors() );
+    // while( (THaDetector* a_det = next_det()) ) {
+    if( theApp ) {
+    _logger->info("THaAnalyzer::InitOutput() calling InitOutput and ManualInitTree on {}, {} ",theModule->GetName() ,  theModule->GetTitle());
+      auto dets = theApp->GetDetectors();
+      for(const auto& a_det : *dets )  {
+        THaDetector* the_det = (THaDetector*)a_det;
+    _logger->info("THaAnalyzer::InitOutput() calling InitOutput and ManualInitTree on {}, {} ",the_det->GetName() ,  the_det->GetTitle());
+        the_det->InitOutput( fOutput );
+        the_det->ManualInitTree( fOutput->GetTree() );
+      }
     }
   }
   return (retval == 0) ? 0 : retval - erroff;
