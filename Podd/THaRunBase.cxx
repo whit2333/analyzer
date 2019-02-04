@@ -26,7 +26,7 @@ static const char* DEFRUNPARAM = "THaRunParameters";
 
 //_____________________________________________________________________________
 THaRunBase::THaRunBase( const char* description ) :
-  podd2::RunLogging<TNamed>(NOTINIT, description ),
+  TNamed(NOTINIT, description ), podd2::RunLogging<podd2::EmptyBase>(),
   fNumber(-1), fType(0), fDate(UNDEFDATE,0), fNumAnalyzed(0),
   fDBRead(kFALSE), fIsInit(kFALSE), fOpened(kFALSE), fAssumeDate(kFALSE),
   fDataSet(0), fDataRead(0), fDataRequired(kDate), fParam(0),
@@ -39,7 +39,7 @@ THaRunBase::THaRunBase( const char* description ) :
 
 //_____________________________________________________________________________
 THaRunBase::THaRunBase( const THaRunBase& rhs ) :
-  podd2::RunLogging<TNamed>( rhs ), fNumber(rhs.fNumber), fType(rhs.fType),
+  TNamed( rhs ),podd2::RunLogging<podd2::EmptyBase>(), fNumber(rhs.fNumber), fType(rhs.fType),
   fDate(rhs.fDate), fNumAnalyzed(rhs.fNumAnalyzed), fDBRead(rhs.fDBRead),
   fIsInit(rhs.fIsInit), fOpened(kFALSE), fAssumeDate(rhs.fAssumeDate),
   fDataSet(rhs.fDataSet), fDataRead(rhs.fDataRead),

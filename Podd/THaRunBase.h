@@ -16,7 +16,7 @@ class THaEvData;
 
 #include "podd2/Logger.h"
 
-class THaRunBase : public podd2::RunLogging<TNamed> {
+class THaRunBase : public TNamed, public podd2::RunLogging<podd2::EmptyBase> {
   
 public:
   THaRunBase( const char* description="" );
@@ -36,7 +36,7 @@ public:
 
   // Main functions
   virtual const UInt_t* GetEvBuffer() const = 0;
-  virtual Int_t        Init();
+  virtual Int_t         Init();
   virtual Int_t        Open() = 0;
   virtual Int_t        ReadEvent() = 0;
   virtual Int_t        SkipToEndOfFile(Int_t skip_max = -1){ return 0;}

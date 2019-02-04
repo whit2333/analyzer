@@ -16,7 +16,8 @@ class THaVertexModule;
 class THaExtTarCor : public THaPhysicsModule, public THaTrackingModule {
   
 public:
-  THaExtTarCor( const char* name, const char* description,
+
+  THaExtTarCor( const char* name = "derp", const char* description = "" ,
 		const char* spectro="", const char* vertex="" );
   virtual ~THaExtTarCor();
   

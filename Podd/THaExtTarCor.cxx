@@ -49,6 +49,7 @@
 #include "VarDef.h"
 
 //_____________________________________________________________________________
+
 THaExtTarCor::THaExtTarCor( const char* name, const char* description,
 			    const char* spectro, const char* vertex ) :
   THaPhysicsModule(name,description), fThetaCorr(0.0), fDeltaCorr(0.0),

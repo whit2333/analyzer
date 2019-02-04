@@ -15,9 +15,28 @@
 
 #pragma link C++ nestedclass;
 #pragma link C++ nestedtypedef;
-#pragma link C++ namespace Podd;
 
+#pragma link C++ namespace Podd;
 #pragma link C++ namespace podd2;
+
+#pragma link C++ class podd2::EmptyBase+;
+
+#pragma link C++ class podd2::AnalysisLogging<podd2::EmptyBase>+;
+#pragma link C++ class podd2::CutLogging<podd2::EmptyBase>+;
+#pragma link C++ class podd2::ConfigLogging<podd2::EmptyBase>+;
+#pragma link C++ class podd2::DetectorLogging<podd2::EmptyBase>+;
+#pragma link C++ class podd2::HitLogging<podd2::EmptyBase>+;
+#pragma link C++ class podd2::ParameterLogging<podd2::EmptyBase>+;
+#pragma link C++ class podd2::RunLogging<podd2::EmptyBase>+;
+#pragma link C++ class podd2::SpectrometerLogging<podd2::EmptyBase>+;
+
+#pragma link C++ class podd2::RunLogging<TObject>+;
+
+#pragma link C++ class podd2::ParameterLogging<TNamed>+;
+
+//podd2::ParameterLogging<TNamed>
+//
+// 
 
 #pragma link C++ class THaVar+;
 #pragma link C++ class THaVarList+;
@@ -34,6 +53,7 @@
 #pragma link C++ class THaCodaRun+;
 #pragma link C++ class THaRunParameters+;
 #pragma link C++ class THaApparatus+;
+#pragma link C++ class podd2::SpectrometerLogging<THaApparatus>+;
 #pragma link C++ class THaSpectrometer+;
 #pragma link C++ class Podd::DecData+;
 #pragma link C++ class BdataLoc+;
@@ -43,6 +63,10 @@
 #pragma link C++ class RoclenLoc+;
 #pragma link C++ class BankData+;
 #pragma link C++ class THaAnalysisObject+;
+//#pragma link C++ class podd2::AnalysisLogging<THaAnalysisObject>+;
+#pragma link C++ class podd2::AnalysisLogging<THaAnalysisObject>+;
+#pragma link C++ class podd2::DetectorLogging<THaAnalysisObject>+;
+
 #pragma link C++ class THaDetectorBase+;
 #pragma link C++ class THaPhysicsModule+;
 #pragma link C++ class THaVertexModule+;
@@ -115,6 +139,19 @@
 #pragma link C++ class Podd::SimDecoder+;
 #pragma link C++ class Podd::CodaRawDecoder+;
 
+#pragma link C++ class podd2::AnalysisLogging<THaPostProcess>+;
+
+#pragma link C++ class podd2::ConfigLogging<TObject>+;
+#pragma link C++ class podd2::ConfigLogging<THaVarList>+;
+#pragma link C++ class podd2::ConfigLogging<THaExtTarCor>+;
+#pragma link C++ class podd2::ConfigLogging<THaBeamDet>+;
+#pragma link C++ class podd2::ConfigLogging<THaPhysicsModule>+;
+#pragma link C++ class podd2::ConfigLogging<THaNonTrackingDetector>+;
+#pragma link C++ class podd2::ConfigLogging<THaEvtTypeHandler>+;
+#pragma link C++ class podd2::ConfigLogging<THaSpectrometer>+;
+#pragma link C++ class podd2::ConfigLogging<THaEvtTypeHandler>+;
+#pragma link C++ class podd2::ConfigLogging<THaHelicityDet>+;
+
 
 #ifdef ONLINE_ET
 #pragma link C++ class THaOnlRun+;
@@ -154,5 +191,7 @@
 #pragma link C++ function THaVar::THaVar( const char*, const char*, std::vector<unsigned int>&, const Int_t* );
 #pragma link C++ function THaVar::THaVar( const char*, const char*, std::vector<double>&, const Int_t* );
 #pragma link C++ function THaVar::THaVar( const char*, const char*, std::vector<float>&, const Int_t* );
+
+
 
 #endif

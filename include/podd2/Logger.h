@@ -1,6 +1,8 @@
 #ifndef podd2_Logger_hh
 #define podd2_Logger_hh
 
+#include "TObject.h"
+
 #include "spdlog/spdlog.h"
 #include "spdlog/sinks/stdout_color_sinks.h" //support for stdout logging
 #include "spdlog/sinks/basic_file_sink.h" // support for basic file logging
@@ -11,7 +13,10 @@ namespace podd2 {
     std::shared_ptr<spdlog::logger> make_logger(std::string name, std::string file);
   }
 
-  struct EmptyBase {};
+  struct EmptyBase {
+    virtual ~EmptyBase(){}
+    ClassDef(EmptyBase,1)
+  };
 
   template <typename Base>
   class RunLogging : public Base {
@@ -27,6 +32,8 @@ namespace podd2 {
       }
       //_logger->set_pattern("[%t] [%n] %^[%l]%$ %v");
     }
+    virtual ~RunLogging(){}
+    ClassDef(RunLogging,1)
   };
 
   template <typename Base>
@@ -40,27 +47,10 @@ namespace podd2 {
       _logger = spdlog::get("config");
       if(!_logger) {
         _logger = log::make_logger("config","logs/config.txt");
-        //std::vector<spdlog::sink_ptr> sinks;
-        //sinks.push_back(std::make_shared<spdlog::sinks::stdout_color_sink_mt>());
-        ////auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
-        //sinks[0]->set_level(spdlog::level::info);
-        ////console_sink->set_pattern("[multi_sink_example] [%^%l%$] %v");
-        //sinks[0]->set_pattern("[%t] [%n] %^[%l]%$ %v");
-
-        //sinks.push_back(
-        //    std::make_shared<spdlog::sinks::basic_file_sink_mt>("logs/multisink.txt", true));
-        ////auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>("logs/multisink.txt", true);
-        //sinks[1]->set_level(spdlog::level::trace);
-
-        //_logger = std::make_shared<spdlog::logger>("config", std::begin(sinks), std::end(sinks));
-        //_logger->set_level(spdlog::level::debug);
-        //_logger->set_pattern("[%t] [%n] %^[%l]%$ %v");
-        //_logger->warn("this should appear in both console and file");
-        //_logger->info("this message should not appear in the console, only in the file");
-        ////_logger = spdlog::stdout_color_mt("config");
-        //spdlog::register_logger(_logger);
       }
     }
+    virtual ~ConfigLogging(){}
+    ClassDef(ConfigLogging,1)
   };
 
   template <typename Base>
@@ -77,6 +67,8 @@ namespace podd2 {
       }
       //_param_logger->set_pattern("[%t] [%n] %^[%l]%$ %v");
     }
+    virtual ~ParameterLogging(){}
+    ClassDef(ParameterLogging,1)
   };
 
   template <typename Base>
@@ -93,6 +85,8 @@ namespace podd2 {
       }
       //_ana_logger->set_pattern("[%t] [%n] %^[%l]%$ %v");
     }
+    virtual ~AnalysisLogging(){}
+    ClassDef(AnalysisLogging,1)
   };
 
   template <typename Base>
@@ -109,6 +103,8 @@ namespace podd2 {
       }
       //_hit_logger->set_pattern("[%t] [%n] %^[%l]%$ %v");
     }
+    virtual ~HitLogging(){}
+    ClassDef(HitLogging,1)
   };
 
   template <typename Base>
@@ -125,6 +121,8 @@ namespace podd2 {
       }
       //_cut_logger->set_pattern("[%t] [%n] %^[%l]%$ %v");
     }
+    virtual ~CutLogging(){}
+    ClassDef(CutLogging,1)
   };
 
 
@@ -142,6 +140,8 @@ namespace podd2 {
       }
       //_det_logger->set_pattern("[%t] [%n] %^[%l]%$ %v");
     }
+    virtual ~DetectorLogging(){}
+    ClassDef(DetectorLogging,1)
   };
 
   template <typename Base>
@@ -158,6 +158,8 @@ namespace podd2 {
       }
       //_spec_logger->set_pattern("[%t] [%n] %^[%l]%$ %v");
     }
+    virtual ~SpectrometerLogging(){}
+    ClassDef(SpectrometerLogging,1)
   };
 
 
