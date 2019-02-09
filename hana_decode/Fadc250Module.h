@@ -18,6 +18,9 @@
 
 namespace Decoder {
 
+  /** Fadc 250 JLab module.
+   *
+   */
   class Fadc250Module : public PipeliningModule {   // Inheritance
 
   public:
@@ -43,6 +46,8 @@ namespace Decoder {
     virtual Int_t GetPedestalQuality(Int_t chan, Int_t ievent) const;
     virtual Int_t GetOverflowBit(Int_t chan, Int_t ievent) const;
     virtual Int_t GetUnderflowBit(Int_t chan, Int_t ievent) const;
+    /** Returns 
+     */
     virtual std::vector<uint32_t> GetPulseSamplesVector(Int_t chan) const;
     virtual Int_t GetFadcMode() const;
     virtual Int_t GetMode() const { return GetFadcMode(); };

@@ -11,6 +11,7 @@ namespace podd2 {
 
   namespace log {
     std::shared_ptr<spdlog::logger> make_logger(std::string name, std::string file);
+    std::string get_log_dir(std::string dir);
   }
 
   struct EmptyBase {
