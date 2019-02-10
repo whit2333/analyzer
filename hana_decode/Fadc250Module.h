@@ -46,9 +46,11 @@ namespace Decoder {
     virtual Int_t GetPedestalQuality(Int_t chan, Int_t ievent) const;
     virtual Int_t GetOverflowBit(Int_t chan, Int_t ievent) const;
     virtual Int_t GetUnderflowBit(Int_t chan, Int_t ievent) const;
-    /** Returns 
+
+    /** Returns the vector of ints representing the channel's digitized waveform.
      */
     virtual std::vector<uint32_t> GetPulseSamplesVector(Int_t chan) const;
+
     virtual Int_t GetFadcMode() const;
     virtual Int_t GetMode() const { return GetFadcMode(); };
     virtual Int_t GetNumFadcEvents(Int_t chan) const;
@@ -104,8 +106,9 @@ namespace Decoder {
     } fadc_data;  // fadc_data_struct
 
     struct fadc_pulse_data {
-      std::vector<uint32_t> integral, time, peak, pedestal;
-      std::vector<uint32_t> samples, coarse_time, fine_time;
+      std::vector<uint32_t> samples; // the big  buffer
+      // The following should all be the same size  ( up to Max peaks found in buffer).
+      std::vector<uint32_t> integral, time, peak, pedestal , coarse_time, fine_time;
       std::vector<uint32_t> pedestal_quality, overflow, underflow;
       void clear() {
 	integral.clear(); time.clear(); peak.clear(); pedestal.clear();
