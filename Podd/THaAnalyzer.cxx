@@ -1485,7 +1485,7 @@ Int_t THaAnalyzer::Process( THaRunBase* run )
 
     //--- Print marks periodically
     if( (fVerbose>1) && (evnum > 0) && (evnum % fMarkInterval == 0)){
-      _logger->info("Run {},  event", fRun->GetNumber(), evnum);
+      _logger->info("Run {},  event {}", fRun->GetNumber(), evnum);
     }
     if( (evnum > 0) &&(evnum % fAutoSaveInterval == 0)){
       fOutput->GetTree()->AutoSave("SaveSelf");

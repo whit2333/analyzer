@@ -61,38 +61,36 @@ void THaCodaData::staterr(const char* tried_to, Int_t status) const
   // of what the status returns from evio mean.
   // Note: severe errors can cause job to exit(0)
   // and the user has to pay attention to why.
-  if (status == S_SUCCESS) return;  // everything is fine.
+  if (status == S_SUCCESS)
+    return; // everything is fine.
   if (status == EOF) {
-    if(CODA_VERBOSE) {
-      cout << endl << "Normal end of file " << filename << " encountered"
-          << endl;
+    if (CODA_VERBOSE) {
+      cout << endl << "Normal end of file " << filename << " encountered" << endl;
     }
     return;
   }
-  cerr << endl << Form("THaCodaFile: ERROR while trying to %s %s: ",
-      tried_to, filename.Data());
+  cerr << endl << Form("THaCodaFile: ERROR while trying to %s %s: ", tried_to, filename.Data());
   Long64_t code = static_cast<Long64_t>(status);
-  switch( code ) {
-  case S_EVFILE_TRUNC :
-    cerr << "Truncated event on file read. Evbuffer size is too small. "
-    << endl;
+  switch (code) {
+  case S_EVFILE_TRUNC:
+    cerr << "Truncated event on file read. Evbuffer size is too small. " << endl;
     break;
-  case S_EVFILE_BADBLOCK :
+  case S_EVFILE_BADBLOCK:
     cerr << "Bad block number encountered " << endl;
     break;
-  case S_EVFILE_BADHANDLE :
+  case S_EVFILE_BADHANDLE:
     cerr << "Bad handle (file/stream not open) " << endl;
     break;
-  case S_EVFILE_ALLOCFAIL :
+  case S_EVFILE_ALLOCFAIL:
     cerr << "Failed to allocate event I/O" << endl;
     break;
-  case S_EVFILE_BADFILE :
+  case S_EVFILE_BADFILE:
     cerr << "File format error" << endl;
     break;
-  case S_EVFILE_UNKOPTION :
+  case S_EVFILE_UNKOPTION:
     cerr << "Unknown file open option specified" << endl;
     break;
-  case S_EVFILE_UNXPTDEOF :
+  case S_EVFILE_UNXPTDEOF:
     cerr << "Unexpected end of file while reading event" << endl;
     break;
   default:

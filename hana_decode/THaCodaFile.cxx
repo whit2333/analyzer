@@ -111,8 +111,10 @@ namespace Decoder {
       status                = evRead(handle, evbuffer, MAXEVLEN);
       uint32_t  event_num   = evbuffer[4]-1;
       auto      event_type  = evbuffer[1]>>16;
-      if( event_type == 20 ) {
+      std::cout << "skipping event " << event_num << "\n";
+      if( event_type == 20 || (S_EVFILE_TRUNC == static_cast<Long64_t>(status)) ) {
         // If we hit the end-of-run event, Rewind 
+        std::cout << " byte swapped : " << a->byte_swapped << "\n";
         *a = a_copy;
         // Reset the file handle to its state prior to call evRead.
         a->next = a_copy.next;
@@ -130,8 +132,10 @@ namespace Decoder {
   Int_t THaCodaFile::skipToEndOfFile(Int_t max_events) {
     // Here we will skip to the end of the coda file or max_events
     Int_t i_event = 0;
-    while( (skipOneEvent() != EOF) && (i_event != max_events) ) {
+    Int_t status =  skipOneEvent();
+    while( (status != EOF) && (i_event < max_events) ) {
       i_event++;
+      status =  skipOneEvent();
     }
     return i_event;
   }
@@ -155,9 +159,9 @@ namespace Decoder {
       int sleep_count           = 0;
       // event_type == 20 is CODA end-of-run event
       // issued when the coda run is (normally) stopped 
-      while( (status == EOF) && (event_type != 20) ) {
+      while( ((status == EOF) && (event_type != 20))  || (S_EVFILE_TRUNC == static_cast<Long64_t>(status)) )  {
 
-        if(sleep_count == 0)  {
+        if(sleep_count == 0) {
           prev_handler = signal (SIGINT, handle_sig);
         }
         if( sleep_count > 100) {
@@ -174,7 +178,7 @@ namespace Decoder {
         std::cout << "waiting for more events at event " << event_num  << ". (" << sleep_count << "/100) \n";
         }
         //gSystem->Sleep(5000);
-        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
         *a = a_copy;
         // Reset the file handle to its state prior to call evRead.
