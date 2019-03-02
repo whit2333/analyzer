@@ -8,6 +8,7 @@ set(EXTVERS .6-devel)
 set(CMAKE_MODULE_PATH
   ${PROJECT_SOURCE_DIR}/cmake/Modules
   ${CMAKE_MODULE_PATH}
+  ${CMAKE_INSTALL_PREFIX}
   )
 include(PoddCMakeEnv)
 
